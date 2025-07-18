@@ -51,12 +51,6 @@ subprojects {
         dependsOn("spotlessApply")
     }
 
-    configure<JavaPluginExtension> {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(21)) // Or your desired version
-        }
-    }
-
     tasks.withType<Test> {
         useJUnitPlatform()
         testLogging.showExceptions = true
@@ -76,6 +70,12 @@ subprojects {
         resolutionStrategy {
             failOnVersionConflict()
         }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21)) // Or your desired version
     }
 }
 
