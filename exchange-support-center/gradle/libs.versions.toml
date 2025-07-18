@@ -1,0 +1,35 @@
+[versions]
+dependencyManagement = "1.1.7"
+sonarlint = "4.3.4"
+spotless = "7.0.0"
+mijmh = "0.7.2"
+lombokPlug = "8.13.1"
+lombok = "1.18.30"
+springBoot = "3.4.3"
+junit = "5.10.0"
+
+[plugins]
+lombokPluging = { id = "io.freefair.lombok", version.ref = "lombokPlug" }
+dependencyManagement = { id = "io.spring.dependency-management", version.ref = "dependencyManagement" }
+sonarlint = { id = "name.remal.sonarlint", version.ref = "sonarlint" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+mijmh = { id = "me.champeau.jmh", version.ref = "mijmh" }
+springboot = { id = "org.springframework.boot", version.ref = "springBoot" }
+
+
+# BASE
+#jvm-compiler = "21"
+#jvm-language = "21"
+
+[libraries]
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+
+
+
+#jackson-datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
+#jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+
+
+
+
