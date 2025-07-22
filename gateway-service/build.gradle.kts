@@ -1,5 +1,28 @@
+plugins {
+    alias(libs.plugins.freefair.lombok)
+    alias(libs.plugins.spring.boot)
+}
+
 dependencies {
-    implementation(platform(rootProject.libs.spring.boot.dependencies))
-    implementation(platform(rootProject.libs.spring.cloud.dependencies))
-    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation(project(":common"))
+    implementation(platform(libs.spring.boot.dependencies))
+    implementation(platform(libs.spring.cloud.dependencies))
+
+    compileOnly(libs.project.lombok)
+    annotationProcessor(libs.project.lombok)
+
+    implementation("org.springframework.cloud:spring-cloud-starter-gateway-server-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
+    implementation(libs.java.uuid.generator)
+
+
+    implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("io.projectreactor:reactor-test")
+    testImplementation(libs.spring.cloud.contract.wiremock)
+    //testImplementation(libs.assertj)
 }

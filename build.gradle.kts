@@ -73,13 +73,14 @@ allprojects {
 
     dependencies {
         testImplementation(platform(rootProject.libs.junit.bom))
-        testImplementation(rootProject.libs.junit.jupiter)
+        testImplementation("org.junit.jupiter:junit-jupiter-api")
     }
 
     configurations.all {
         resolutionStrategy {
             failOnVersionConflict()
-            force("io.micrometer:micrometer-observation:1.15.1")
+            force("io.micrometer:micrometer-observation:1.15.0")
+            force("io.micrometer:micrometer-core:1.15.0")
             force("org.slf4j:slf4j-api:2.0.17")
             force("com.google.guava:guava:32.1.3-jre")
 
@@ -93,6 +94,24 @@ allprojects {
             force("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.10")
             force("com.google.errorprone:error_prone_annotations:2.27.0")
             force("org.jetbrains:annotations:19.0.0")
+
+            force("io.projectreactor:reactor-core:3.7.6")
+            force("org.jboss.logging:jboss-logging:3.6.1.Final")
+            force("com.fasterxml:classmate:1.7.0")
+
+            force("io.netty:netty-common:4.1.121.Final")
+            force("io.netty:netty-handler:4.1.121.Final")
+            force("io.netty:netty-transport:4.1.121.Final")
+            force("jakarta.xml.bind:jakarta.xml.bind-api:4.0.2")
+
+            force("org.projectlombok:lombok:1.18.38")
+
+            force("org.hamcrest:hamcrest:3.0")
+            force("net.bytebuddy:byte-buddy:1.17.5")
+            force("net.bytebuddy:byte-buddy-agent:1.17.5")
+
+            force("org.junit.jupiter:junit-jupiter-api:5.12.2")
+            force("net.minidev:json-smart:2.5.2")
         }
     }
 }
