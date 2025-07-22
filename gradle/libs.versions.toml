@@ -1,20 +1,24 @@
 [versions]
-dependencyManagement = "1.1.7"
+dependency-management = "1.1.7"
 sonarlint = "4.3.4"
-spotless = "7.0.0"
+spotless = "7.2.1"
 mijmh = "0.7.2"
-lombokPlug = "8.13.1"
+lombok-plugin = "8.13.1"
 lombok = "1.18.30"
-springBoot = "3.4.3"
-junit = "5.10.0"
+spring-boot-bom = "3.5.3"
+spring-cloud-bom = "2025.0.0"
+junit = "5.12.2"
+palantir = "2.72.0"
 
 [plugins]
-lombokPluging = { id = "io.freefair.lombok", version.ref = "lombokPlug" }
-dependencyManagement = { id = "io.spring.dependency-management", version.ref = "dependencyManagement" }
+lombokPluging = { id = "io.freefair.lombok", version.ref = "lombok-plugin" }
+dependencyManagement = { id = "io.spring.dependency-management", version.ref = "dependency-management" }
 sonarlint = { id = "name.remal.sonarlint", version.ref = "sonarlint" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+palantire = { id = "com.palantir.java-format", version.ref = "palantir" }
 mijmh = { id = "me.champeau.jmh", version.ref = "mijmh" }
-springboot = { id = "org.springframework.boot", version.ref = "springBoot" }
+
+
 
 
 # BASE
@@ -24,8 +28,9 @@ springboot = { id = "org.springframework.boot", version.ref = "springBoot" }
 [libraries]
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
-
-
+spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot-bom" }
+spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "spring-cloud-bom" }
+palantir-javaformat = { module = "com.palantir.javaformat:gradle-palantir-java-format", version.ref = "palantir" }
 
 #jackson-datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
 #jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
