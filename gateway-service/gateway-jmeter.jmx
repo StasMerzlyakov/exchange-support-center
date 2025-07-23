@@ -19,7 +19,7 @@
       </ThreadGroup>
       <hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="receive">
-          <stringProp name="HTTPSampler.path">http://localhost:8080/receive?user=tysewyn</stringProp>
+          <stringProp name="HTTPSampler.path">http://localhost:8080/receive</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>

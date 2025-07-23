@@ -8,8 +8,9 @@ import reactor.core.publisher.Mono;
 @Configuration
 public class GateWayConfiguration {
     @Bean
-    public KeyResolver userKeyResolver() {
+    public KeyResolver keyResolver() {
         //return exchange -> Mono.just(exchange.getSession().subscribe().toString());
-        return exchange -> Mono.just(exchange.getRequest().getQueryParams().getFirst("user"));
+        //return exchange -> Mono.just(exchange.getRequest().getQueryParams().getFirst("user"));
+        return exchange -> Mono.just("xmlRouteResolver");
     }
 }

@@ -23,7 +23,7 @@ spring:
                     redis-rate-limiter.replenishRate: 2  # rps 10/per second
                     redis-rate-limiter.burstCapacity: 3
                     redis-rate-limiter.requestedTokens: 1
-                    key-resolver: "#{@userKeyResolver}"
+                    key-resolver: "#{@keyResolver}"
                 - name: TraceID
                   args:
                     serviceId: ${serviceId}
@@ -59,4 +59,4 @@ management:
         include: prometheus
 logging:
   level:
-    root: TRACE
+    root: INFO
