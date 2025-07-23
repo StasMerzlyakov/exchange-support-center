@@ -13,6 +13,8 @@ palantir = "2.72.0"
 java-uuid-generator = "5.1.0"
 spring-cloud-contract-wiremock = "4.3.0"
 assertj = "3.26.3"
+testcontainers = "1.21.0"
+redis-testcontainers = "1.6.4"
 
 [plugins]
 freefair-lombok = { id = "io.freefair.lombok", version.ref = "lombok-plugin" }
@@ -23,12 +25,14 @@ palantire = { id = "com.palantir.java-format", version.ref = "palantir" }
 mijmh = { id = "me.champeau.jmh", version.ref = "mijmh" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 
+
 # BASE
 #jvm-compiler = "21"
 #jvm-language = "21"
 
 [libraries]
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers"}
 spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot-bom" }
 spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "spring-cloud-bom" }
 palantir-javaformat = { module = "com.palantir.javaformat:gradle-palantir-java-format", version.ref = "palantir" }
@@ -36,6 +40,7 @@ project-lombok = { module = "org.projectlombok:lombok", version.ref = "project-l
 java-uuid-generator = { module = "com.fasterxml.uuid:java-uuid-generator", version.ref = "java-uuid-generator" }
 spring-cloud-contract-wiremock = { module = "org.springframework.cloud:spring-cloud-contract-wiremock", version.ref = "spring-cloud-contract-wiremock" }
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj"}
+redis-testcontainers = {module = "com.redis.testcontainers:testcontainers-redis", version.ref = "redis-testcontainers"}
 
 #jackson-datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
 #jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }

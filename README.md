@@ -45,7 +45,8 @@ SpringCloudGateway - сервис. Принимает данные, от вне�
 
 Фильтры:
 - RPM (RequestRateLimiter gateway filter cluster на redis) 
-- Кастомный фильтр с CircuitBreaker (resilience4j) 
+- CircuitBreaker (resilience4j)
+- Кастомный фильтр (добавляет заголовки)
 
 Метрики:
 - cpu/ram

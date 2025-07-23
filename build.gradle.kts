@@ -73,6 +73,7 @@ allprojects {
 
     dependencies {
         testImplementation(platform(rootProject.libs.junit.bom))
+        testImplementation(platform(rootProject.libs.testcontainers.bom))
         testImplementation("org.junit.jupiter:junit-jupiter-api")
     }
 
@@ -112,6 +113,14 @@ allprojects {
 
             force("org.junit.jupiter:junit-jupiter-api:5.12.2")
             force("net.minidev:json-smart:2.5.2")
+
+            force("org.apache.httpcomponents.client5:httpclient5:5.4.4")
+            force("org.awaitility:awaitility:4.3.0")
+            force("com.fasterxml.jackson.core:jackson-databind:2.19.0")
+
+            force("org.testcontainers:testcontainers:1.21.0")
+            force("com.fasterxml.jackson.core:jackson-annotations:2.19.0")
+            force("org.hamcrest:hamcrest-core:3.0")
         }
     }
 }
