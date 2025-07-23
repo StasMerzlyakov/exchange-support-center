@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.core.env.Environment;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -53,6 +54,7 @@ class TraceIDTest {
     private String serviceId;
 
     @Test
+    @DirtiesContext
     void doTraceIdOkTest() {
         assertThat(environment.containsProperty("wiremock.server.port")).isTrue();
 
@@ -77,6 +79,7 @@ class TraceIDTest {
     }
 
     @Test
+    @DirtiesContext
     void doTraceIdNotFoundTest() {
         assertThat(environment.containsProperty("wiremock.server.port")).isTrue();
 

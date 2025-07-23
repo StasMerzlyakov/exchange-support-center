@@ -58,7 +58,8 @@ SpringCloudGateway - сервис. Принимает данные, от вне�
 - реактивное программирование: Профилирование приложения на Reactor 
   - TraceIDGatewayFilterFactory.apply - onError метод
   - GateWayService: Hooks.onOperatorDebug()
-- TODO Балансировка нагрузки + RPM + CircuitBreaker
+- Шаблоны проектирования отказоустойчивого сервиса (Resilience4j CircuitBreaker) (application.yaml)  
+- TODO Балансировка нагрузки + RPM
 
 ## Receiver
 java - REST-сервис. (reactor + swagger)

@@ -8,14 +8,10 @@ spring:
     gateway:
       routes:
         - id: xmlRoute
-          uri: http://receiver:8080
+          uri: http://localhost:${wiremock.server.port}
           predicates:
             - Path=/receive
           filters:
-            - name: TraceID
-              args:
-                serviceId: ${serviceId}
-            - RewritePath=/receive,/v1/api
             - name: CircuitBreaker
               args:
                 name: backendA
