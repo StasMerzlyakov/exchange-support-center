@@ -20,9 +20,9 @@ spring:
               filters:
                 - name: RequestRateLimiter
                   args:
-                    redis-rate-limiter.replenishRate: 2  # rps 10/per second
-                    redis-rate-limiter.burstCapacity: 3
-                    redis-rate-limiter.requestedTokens: 1
+                    redis-rate-limiter.replenishRate: 60  # rpm 10/per minute
+                    redis-rate-limiter.burstCapacity: 60
+                    redis-rate-limiter.requestedTokens: 6
                     key-resolver: "#{@keyResolver}"
                 - name: TraceID
                   args:
