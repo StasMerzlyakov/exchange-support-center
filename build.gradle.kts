@@ -1,11 +1,12 @@
-import com.palantir.javaformat.gradle.PalantirJavaFormatPlugin
+import com.diffplug.gradle.spotless.SpotlessExtension
+import com.diffplug.gradle.spotless.SpotlessPlugin
 import name.remal.gradle_plugins.sonarlint.SonarLint
 import name.remal.gradle_plugins.sonarlint.SonarLintExtension
+import name.remal.gradle_plugins.sonarlint.SonarLintPlugin
 
 
 plugins {
     java
-    alias(libs.plugins.palantire) apply false
     alias(libs.plugins.spotless) apply false
     alias(libs.plugins.sonarlint) apply false
 }
@@ -17,6 +18,7 @@ version = projectVersion
 
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -34,31 +36,36 @@ allprojects {
 
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
-        options.compilerArgs.addAll(listOf("-Xlint:all,-serial,-processing"))
+        options.compilerArgs.addAll(
+            listOf(
+                "-Xlint:all,-serial,-processing"
+            )
+        )
     }
 
-    apply<name.remal.gradle_plugins.sonarlint.SonarLintPlugin>()
+    apply<SonarLintPlugin>()
     configure<SonarLintExtension> {
+
         nodeJs {
             detectNodeJs.set(false)
             logNodeJsNotFound.set(false)
         }
     }
 
-    plugins.apply(PalantirJavaFormatPlugin::class.java)
 
-    buildscript {
-        dependencies {
-            classpath(rootProject.libs.palantir.javaformat)
-        }
-        repositories {
-            mavenLocal()
-            mavenCentral()
+    apply<SpotlessPlugin>()
+    configure<SpotlessExtension> {
+        java {
+            removeUnusedImports()
+            trimTrailingWhitespace()
+            palantirJavaFormat("2.72.0")
         }
     }
 
+
     tasks.withType<SonarLint> {
-        dependsOn("formatDiff")
+        dependsOn("spotlessApply")
+        exclude("src/test/resources/*")
     }
 
     tasks.withType<Test> {
@@ -74,7 +81,8 @@ allprojects {
     dependencies {
         testImplementation(platform(rootProject.libs.junit.bom))
         testImplementation(platform(rootProject.libs.testcontainers.bom))
-        testImplementation("org.junit.jupiter:junit-jupiter-api")
+        testImplementation("org.junit.jupiter:junit-jupiter")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
 
     configurations.all {
@@ -116,11 +124,21 @@ allprojects {
 
             force("org.apache.httpcomponents.client5:httpclient5:5.4.4")
             force("org.awaitility:awaitility:4.3.0")
-            force("com.fasterxml.jackson.core:jackson-databind:2.19.0")
+
 
             force("org.testcontainers:testcontainers:1.21.0")
-            force("com.fasterxml.jackson.core:jackson-annotations:2.19.0")
             force("org.hamcrest:hamcrest-core:3.0")
+
+            force("com.fasterxml.jackson.core:jackson-databind:2.19.1")
+            force("com.fasterxml.jackson.core:jackson-annotations:2.19.1")
+            force("com.fasterxml.jackson.core:jackson-core:2.19.1")
+            force("com.fasterxml.jackson:jackson-bom:2.19.1")
+
+            force("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.19.1")
+            force("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.19.1")
+            force("com.fasterxml.jackson.module:jackson-module-parameter-names:2.19.1")
+
+            force("org.apache.httpcomponents.core5:httpcore5:5.3.4")
         }
     }
 }
@@ -130,6 +148,7 @@ java {
         languageVersion.set(JavaLanguageVersion.of(21)) // Or your desired version
     }
 }
+
 
 tasks.test {
     useJUnitPlatform()
