@@ -1,10 +1,9 @@
-package ru.otus.exchange.gateway.traceid.filters.traceid;
+package ru.otus.exchange.gateway.filters.requestid;
 
 import com.fasterxml.uuid.Generators;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 @Qualifier("uuidGenerator")

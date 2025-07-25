@@ -139,6 +139,10 @@ allprojects {
             force("com.fasterxml.jackson.module:jackson-module-parameter-names:2.19.1")
 
             force("org.apache.httpcomponents.core5:httpcore5:5.3.4")
+
+            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.25")
+
+            force("javax.xml.bind:jaxb-api:2.3.0")
         }
     }
 }

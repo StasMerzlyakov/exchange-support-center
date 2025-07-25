@@ -8,6 +8,8 @@ spring:
     redis:
       host: redis
       port: 6379
+  application:
+    name: ${serviceId}
   cloud:
     gateway:
       server:
@@ -20,11 +22,11 @@ spring:
               filters:
                 - name: RequestRateLimiter
                   args:
-                    redis-rate-limiter.replenishRate: 60  # rpm 10/per minute
+                    redis-rate-limiter.replenishRate: 1  # rpm 10/per minute
                     redis-rate-limiter.burstCapacity: 60
                     redis-rate-limiter.requestedTokens: 6
                     key-resolver: "#{@keyResolver}"
-                - name: TraceID
+                - name: RequestIDGenerator
                   args:
                     serviceId: ${serviceId}
                 - RewritePath=/receive,/v1/api
@@ -52,11 +54,21 @@ management:
     port: 7000
   endpoint:
     prometheus:
-      enabled: true
+      #  fullacces by default; (see hasRole('ROLE_ADMIN'), authenticated)
+      access: unrestricted
   endpoints:
     web:
       exposure:
         include: prometheus
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
 logging:
   level:
-    root: INFO
+    root: TRACE
+  pattern:
+    correlation: "[${spring.application.name:},%X{traceId:-},%X{spanId:-}] "
+  include-application-name: false

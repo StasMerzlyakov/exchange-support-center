@@ -13,3 +13,4 @@ plugins {
 rootProject.name = "exchange-support-service"
 include("gateway-service")
 include("common")
+include("schemas")

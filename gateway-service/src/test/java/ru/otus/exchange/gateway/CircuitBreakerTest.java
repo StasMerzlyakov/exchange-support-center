@@ -1,6 +1,16 @@
 package ru.otus.exchange.gateway;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.github.tomakehurst.wiremock.client.WireMock;
+import java.time.Duration;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -22,18 +32,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.time.Duration;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.awaitility.Awaitility.await;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Slf4j
 @ExtendWith(SpringExtension.class)
@@ -58,8 +56,7 @@ class CircuitBreakerTest {
 
         String testContent = "Hello from downstream!";
 
-        stubFor(post("/receive")
-                .willReturn(aResponse().withStatus(201).withBody(testContent)));
+        stubFor(post("/receive").willReturn(aResponse().withStatus(201).withBody(testContent)));
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpUriRequest request = new HttpPost(String.format("http://localhost:%d/receive", localServerPort));
@@ -84,37 +81,37 @@ class CircuitBreakerTest {
         var errorCounter = new AtomicInteger();
         var okCounter = new AtomicInteger();
 
-
         IntStream.rangeClosed(1, iterationCount).forEach(it -> {
             if (it % 2 == 0) {
                 okCounter.incrementAndGet();
                 stubFor(post("/receive")
                         .inScenario("circuitbreaker")
                         .whenScenarioStateIs("state" + it)
-                        .willReturn(aResponse().withStatus(HttpStatus.OK.value()).withBody("Hello from downstream!")));
+                        .willReturn(
+                                aResponse().withStatus(HttpStatus.OK.value()).withBody("Hello from downstream!")));
             } else {
                 errorCounter.incrementAndGet();
                 stubFor(post("/receive")
                         .inScenario("circuitbreaker")
                         .whenScenarioStateIs("state" + it)
-                        .willReturn(aResponse().withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value()).withBody("internal error ")));
+                        .willReturn(aResponse()
+                                .withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                                .withBody("internal error ")));
             }
         });
 
         var responses = new CopyOnWriteArrayList<Integer>();
 
-
         IntStream.rangeClosed(1, iterationCount).forEach(it -> {
             Assertions.assertDoesNotThrow(() -> {
-                        log.info("processing {}", it);
-                        WireMock.setScenarioState("circuitbreaker", "state" + it);
-                        CloseableHttpClient httpClient = HttpClients.createDefault();
-                        HttpUriRequest request = new HttpPost(String.format("http://localhost:%d/receive", localServerPort));
-                        HttpResponse httpResponse = httpClient.execute(request);
-                        responses.add(httpResponse.getStatusLine().getStatusCode());
-                        await().during(iterationSleepDuration);
-                    }
-            );
+                log.info("processing {}", it);
+                WireMock.setScenarioState("circuitbreaker", "state" + it);
+                CloseableHttpClient httpClient = HttpClients.createDefault();
+                HttpUriRequest request = new HttpPost(String.format("http://localhost:%d/receive", localServerPort));
+                HttpResponse httpResponse = httpClient.execute(request);
+                responses.add(httpResponse.getStatusLine().getStatusCode());
+                await().during(iterationSleepDuration);
+            });
         });
 
         var countMap = responses.stream().collect(Collectors.groupingBy(it -> it, Collectors.counting()));

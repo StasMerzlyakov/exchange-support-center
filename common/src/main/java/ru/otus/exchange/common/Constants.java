@@ -6,5 +6,5 @@ public class Constants {
     }
 
     public static final String SERVICE_ID = "ServiceId";
-    public static final String TRACE_ID = "TraceId";
+    public static final String REQUEST_ID = "RequestId";
 }

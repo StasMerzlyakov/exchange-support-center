@@ -44,7 +44,7 @@ SpringCloudGateway - сервис. Принимает данные, от вне�
 их на Receiver. 
 
 Фильтры:
-- RPM 10/min (RequestRateLimiter gateway filter cluster на redis) (https://en.wikipedia.org/wiki/Token_bucket, https://spring.io/blog/2021/04/05/api-rate-limiting-with-spring-cloud-gateway) 
+- RPM 10/min (RequestRateLimiter gateway filter cluster на redis) 
 - CircuitBreaker (resilience4j)
 - Кастомный фильтр (добавляет заголовки)
 - TODO Балансировка нагрузки
@@ -59,7 +59,7 @@ SpringCloudGateway - сервис. Принимает данные, от вне�
 - 22. Реактивное программирование: Reactor
 - 23. Реактивное программирование: Профилирование приложения на Reactor 
   - TraceIDGatewayFilterFactory.apply - onError метод
-  - GateWayService: Hooks.onOperatorDebug()
+  - GateWayService: Hooks.enableAutomaticContextPropagation()
 - 37. Шаблоны проектирования отказоустойчивого сервиса (Resilience4j CircuitBreaker) (application.yaml)
 - 31. Проектирование и архитектура в разрезе микросервисов (API Gateway)
 - 14. Разбор JMeter и организация нагрузочного тестирования (jmeter)

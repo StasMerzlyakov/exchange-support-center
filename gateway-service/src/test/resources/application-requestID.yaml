@@ -12,7 +12,7 @@ spring:
           predicates:
             - Path=/receive
           filters:
-            - name: TraceID
+            - name: RequestIDGenerator
               args:
                 serviceId: ${serviceId}
             - RewritePath=/receive,/v1/api

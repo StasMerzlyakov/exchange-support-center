@@ -15,9 +15,15 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
-    implementation("io.micrometer:micrometer-registry-prometheus")
 
     implementation(libs.java.uuid.generator)
+
+    implementation("io.micrometer:micrometer-registry-prometheus")
+    implementation("io.micrometer:micrometer-tracing-bridge-otel")
+    implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
+
+    implementation(platform(libs.opentelemetry.instrumentation.bom))
+    implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations")
 
     implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
 

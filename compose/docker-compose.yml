@@ -11,6 +11,7 @@ services:
     depends_on:
       - redis
       - receiver
+      - zipkin
 
   redis:
     image: redis:8.0.3
@@ -29,6 +30,16 @@ services:
       - redis
     networks:
       - gateway-net
+
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    hostname: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - gateway-net
+
 
   receiver:
     image: boxboat/hello-world-webapp

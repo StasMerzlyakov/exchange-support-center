@@ -1,4 +1,4 @@
-package ru.otus.exchange.gateway.traceid.filters.traceid;
+package ru.otus.exchange.gateway.filters.requestid;
 
 import java.util.UUID;
 

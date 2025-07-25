@@ -1,5 +1,4 @@
 [versions]
-dependency-management = "1.1.7"
 sonarlint = "4.3.4"
 spotless = "6.25.0"
 mijmh = "0.7.2"
@@ -14,16 +13,21 @@ spring-cloud-contract-wiremock = "4.3.0"
 testcontainers = "1.21.0"
 redis-testcontainers = "1.6.4"
 slf4j-api = "2.0.17"
+opentelemetry-instrumentation-bom = "2.15.0"
 
+jaxb-api = "2.3.0"
+jvnet-jaxb2-basics = "1.1.0"
+jakarta-bind-api = "4.0.2"
+bjornvester-xjc = "1.8.2"
+jaxb-runtime = "4.0.5"
 
 [plugins]
 freefair-lombok = { id = "io.freefair.lombok", version.ref = "lombok-plugin" }
-dependency-management = { id = "io.spring.dependency-management", version.ref = "dependency-management" }
 sonarlint = { id = "name.remal.sonarlint", version.ref = "sonarlint" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 mijmh = { id = "me.champeau.jmh", version.ref = "mijmh" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
-
+bjornvester-xjc = { id = "com.github.bjornvester.xjc", version.ref = "bjornvester-xjc" }
 
 # BASE
 #jvm-compiler = "21"
@@ -31,9 +35,14 @@ spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 
 [libraries]
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+opentelemetry-instrumentation-bom = { module = "io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom", version.ref = "opentelemetry-instrumentation-bom" }
 testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
 spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot-bom" }
 spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "spring-cloud-bom" }
+jaxb-api = { module = "javax.xml.bind:jaxb-api", version.ref = "jaxb-api" }
+jvnet-jaxb2-basics = { module = "org.jvnet.jaxb2_commons:jaxb2-basics-annotate", version.ref = "jvnet-jaxb2-basics" }
+jakarta-bind-api = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version.ref = "jakarta-bind-api" }
+
 
 project-lombok = { module = "org.projectlombok:lombok", version.ref = "project-lombok" }
 java-uuid-generator = { module = "com.fasterxml.uuid:java-uuid-generator", version.ref = "java-uuid-generator" }
@@ -41,9 +50,7 @@ spring-cloud-contract-wiremock = { module = "org.springframework.cloud:spring-cl
 redis-testcontainers = { module = "com.redis.testcontainers:testcontainers-redis", version.ref = "redis-testcontainers" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j-api" }
 
-
-#jackson-datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
-#jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jaxb-runtime = { module = "org.glassfish.jaxb:jaxb-runtime", version.ref = "jaxb-runtime" }
 
 
 

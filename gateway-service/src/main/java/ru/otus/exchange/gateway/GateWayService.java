@@ -4,13 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import reactor.core.publisher.Hooks;
 
-@SpringBootApplication(
-        scanBasePackages = "ru.otus.exchange.gateway"
-)
+@SpringBootApplication(scanBasePackages = "ru.otus.exchange.gateway")
 public class GateWayService {
 
     public static void main(String... args) {
-        Hooks.onOperatorDebug();
+        Hooks.enableAutomaticContextPropagation();
         SpringApplication.run(GateWayService.class, args);
     }
 }
