@@ -1,17 +1,16 @@
 package ru.otus.exchange.gateway;
 
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.InputStream;
+import java.util.Objects;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.otus.exchange.fxml.NotXmlException;
 import ru.otus.exchange.gateway.filters.validation.MessageInfo;
 import ru.otus.exchange.gateway.filters.validation.MessageInfoExtractor;
-
-import java.io.InputStream;
-import java.util.Objects;
-
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MessageInfoExtractorTest {
 
@@ -58,7 +57,7 @@ class MessageInfoExtractorTest {
             Assert.assertEquals(xml.length, in.read(xml));
 
             Assertions.assertThrows(NotXmlException.class, () -> {
-                MessageInfo messageInfo = new MessageInfoExtractor().extractInfo(xml);
+                new MessageInfoExtractor().extractInfo(xml);
             });
         }
     }

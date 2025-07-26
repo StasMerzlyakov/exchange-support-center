@@ -17,7 +17,7 @@ class EnvelopeTest {
 
     @Test
     void doUnmarshalling() throws Exception {
-        try (InputStream is = EnvelopeTest.class.getResourceAsStream("/soapenv-exchange-1.xsd.xml")) {
+        try (InputStream is = EnvelopeTest.class.getResourceAsStream("/soapenv-exchange.xsd.xml")) {
             Assertions.assertNotNull(is);
 
             Source ss = new StreamSource(is);
@@ -37,7 +37,7 @@ class EnvelopeTest {
 
     @Test
     void doMarshalling() throws Exception {
-        try (InputStream is = EnvelopeTest.class.getResourceAsStream("/soapenv-exchange-1.xsd.xml")) {
+        try (InputStream is = EnvelopeTest.class.getResourceAsStream("/soapenv-exchange.xsd.xml")) {
             Assertions.assertNotNull(is);
 
             Source ss = new StreamSource(is);

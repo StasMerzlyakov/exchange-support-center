@@ -2,8 +2,8 @@ package ru.otus.exchange.fxml;
 
 import static ru.otus.exchange.fxml.IXmlParser.TOKEN_TYPE.END;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import javax.xml.namespace.QName;
 import lombok.Getter;
@@ -21,11 +21,11 @@ public class XPathSearcher extends NamespaceResolverXMLParser {
         super(inputStream, buffer);
     }
 
-    public static String joinStringStack(Deque<String> path) {
+    public static String joinStringStack(List<String> path) {
         return String.join("/", path);
     }
 
-    public static String joinStackToString(Deque<String> path) {
+    public static String joinStackToString(List<String> path) {
         return "/" + joinStringStack(path);
     }
 
@@ -210,7 +210,7 @@ public class XPathSearcher extends NamespaceResolverXMLParser {
         }
 
         // Текущий путь
-        Deque<String> stackPath = new LinkedList<>();
+        List<String> stackPath = new LinkedList<>();
 
         IXmlParser.TOKEN_TYPE tokenType;
 
@@ -234,7 +234,7 @@ public class XPathSearcher extends NamespaceResolverXMLParser {
                         processText(resultMap, stackPath, resolveQNameSet, currentQName);
                         break;
                     case END_TAG:
-                        stackPath.pollLast();
+                        stackPath.removeLast();
                         break;
                     default:
                         break;
@@ -252,7 +252,7 @@ public class XPathSearcher extends NamespaceResolverXMLParser {
 
     @SuppressWarnings("java:S3776")
     private void processText(
-            Map<String, String> resultMap, Deque<String> stackPath, Set<String> resolveQNameSet, String currentQName)
+            Map<String, String> resultMap, List<String> stackPath, Set<String> resolveQNameSet, String currentQName)
             throws IOException {
         String parentPath = joinStringStack(stackPath);
         if (resultMap.containsKey(parentPath)) {
