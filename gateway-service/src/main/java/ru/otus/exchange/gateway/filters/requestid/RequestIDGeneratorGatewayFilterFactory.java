@@ -1,5 +1,6 @@
 package ru.otus.exchange.gateway.filters.requestid;
 
+import io.micrometer.observation.annotation.Observed;
 import io.micrometer.tracing.SpanName;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,6 @@ public class RequestIDGeneratorGatewayFilterFactory
         this.uuidGenerator = uuidGenerator;
     }
 
-    @SpanName("requestId")
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> chain.filter(exchange.mutate()

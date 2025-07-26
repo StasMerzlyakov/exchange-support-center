@@ -4,9 +4,10 @@
 Имя должно заканчиваться на суффикс GatewayFilterFactory
 
 В списке фильтров указываем имя без суффикса:
-Прим.
+``
 classname: RequestIDGeneratorGatewayFilterFactory
 filtername - RequestIDGenerator
+``
 
 ## RequestRateLimiter
 В основе лежит алгоритм token_bucket:
@@ -18,9 +19,9 @@ filtername - RequestIDGenerator
 ```
 redis-rate-limiter.replenishRate: 1   # в одну секунду восстанавливается 1 токен
 redis-rate-limiter.burstCapacity: 60  # моксимальное кол-во токенов 60
-redis-rate-limiter.requestedTokens: 6 # стоимость запроса
+redis-rate-limiter.requestedTokens: 1 # стоимость запроса
 
-итого - rpm 10/мин
+итого - rpm 60/мин
 ```
 
 Обязательно следим за KeyResolver. KeyResolver определяет политику вычисления ограничений. 
@@ -36,8 +37,7 @@ redis-rate-limiter.requestedTokens: 6 # стоимость запроса
 
 В варианте встроенной библиотеки и интеграции с zipkin
 
-```
-    depenencies:
+```depenencies:
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-tracing-bridge-otel")
     implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
@@ -70,9 +70,24 @@ management:
 
 ```GateWayService
 public static void main(String... args) {
-    Hooks.enableAutomaticContextPropagation();  <--- для корректной работы с reactor
+    Hooks.enableAutomaticContextPropagation();  <--- для корректной работы с reactor и проброса traceId
     SpringApplication.run(GateWayService.class, args);
 }
+```
+
+Для работы аннотации @Observed (ставится на бины или методы) дополнительно:
+
+```depenencies:
+implementation("org.springframework.boot:spring-boot-starter-aop")
+```
+
+```AppConfiguration
+
+    @Bean
+    public ObservedAspect observedAspect(ObservationRegistry observationRegistry) {
+        return new ObservedAspect(observationRegistry);
+    }
+
 ```
 
 ## CircuitBreaker

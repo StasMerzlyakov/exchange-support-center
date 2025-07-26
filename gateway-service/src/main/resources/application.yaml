@@ -22,10 +22,17 @@ spring:
               filters:
                 - name: RequestRateLimiter
                   args:
-                    redis-rate-limiter.replenishRate: 1  # rpm 10/per minute
+                    # rpm 60/per minute
+                    redis-rate-limiter.replenishRate: 1
                     redis-rate-limiter.burstCapacity: 60
-                    redis-rate-limiter.requestedTokens: 6
+                    redis-rate-limiter.requestedTokens: 1
                     key-resolver: "#{@keyResolver}"
+                - name: CacheRequestBody
+                  args:
+                    bodyClass: byte[]
+                - name: ValidateInputXML
+                  args:
+                    acceptable: 123456789
                 - name: RequestIDGenerator
                   args:
                     serviceId: ${serviceId}
@@ -68,7 +75,7 @@ management:
       endpoint: http://zipkin:9411/api/v2/spans
 logging:
   level:
-    root: TRACE
+    root: INFO
   pattern:
     correlation: "[${spring.application.name:},%X{traceId:-},%X{spanId:-}] "
-  include-application-name: false
+  include-application-name: true

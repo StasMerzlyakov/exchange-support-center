@@ -2,7 +2,7 @@ package ru.otus.exchange.fxml;
 
 import static ru.otus.exchange.fxml.IXmlParser.TOKEN_TYPE.END;
 
-import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.util.*;
 import javax.xml.namespace.QName;
@@ -13,11 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class XPathSearcher extends NamespaceResolverXMLParser {
 
-    public XPathSearcher(ByteArrayInputStream inputStream) throws IOException {
+    public XPathSearcher(InputStream inputStream) throws IOException {
         super(inputStream);
     }
 
-    public XPathSearcher(ByteArrayInputStream inputStream, IBuffer buffer) throws IOException {
+    public XPathSearcher(InputStream inputStream, IBuffer buffer) throws IOException {
         super(inputStream, buffer);
     }
 

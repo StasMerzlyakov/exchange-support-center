@@ -1,0 +1,65 @@
+package ru.otus.exchange.gateway;
+
+import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import ru.otus.exchange.fxml.NotXmlException;
+import ru.otus.exchange.gateway.filters.validation.MessageInfo;
+import ru.otus.exchange.gateway.filters.validation.MessageInfoExtractor;
+
+import java.io.InputStream;
+import java.util.Objects;
+
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class MessageInfoExtractorTest {
+
+    @Test
+    void test1() throws Exception {
+        try (InputStream in = MessageInfoExtractorTest.class.getResourceAsStream("/soapenv-exchange-1.xsd.xml")) {
+            byte[] xml = new byte[Objects.requireNonNull(in).available()];
+            Assert.assertEquals(xml.length, in.read(xml));
+
+            Assertions.assertDoesNotThrow(() -> {
+                MessageInfo messageInfo = new MessageInfoExtractor().extractInfo(xml);
+                assertEquals("1111111111111111111111111", messageInfo.getLifecycleID());
+                assertEquals("2222222222222222222222222", messageInfo.getMessageID());
+                assertEquals("123456789", messageInfo.getFrom());
+                assertEquals("333444555", messageInfo.getTo());
+                assertEquals("3333333333333333333333333", messageInfo.getReplyTo());
+                assertEquals("{http://exchange.support/messages/exchange}ExchangeMessage", messageInfo.getBodyQName());
+            });
+        }
+    }
+
+    @Test
+    void test2() throws Exception {
+        try (InputStream in = MessageInfoExtractorTest.class.getResourceAsStream("/soapenv-exchange-2.xsd.xml")) {
+            byte[] xml = new byte[Objects.requireNonNull(in).available()];
+            Assert.assertEquals(xml.length, in.read(xml));
+
+            Assertions.assertDoesNotThrow(() -> {
+                MessageInfo messageInfo = new MessageInfoExtractor().extractInfo(xml);
+                assertEquals("1111111111111111111111111", messageInfo.getLifecycleID());
+                assertEquals("2222222222222222222222222", messageInfo.getMessageID());
+                assertEquals("123456789", messageInfo.getFrom());
+                assertEquals("333444555", messageInfo.getTo());
+                assertNull(messageInfo.getReplyTo());
+                assertEquals("{http://exchange.support/messages/exchange}ExchangeMessage", messageInfo.getBodyQName());
+            });
+        }
+    }
+
+    @Test
+    void test3() throws Exception {
+        try (InputStream in = MessageInfoExtractorTest.class.getResourceAsStream("/soapenv-exchange-3.xsd.xml")) {
+            byte[] xml = new byte[Objects.requireNonNull(in).available()];
+            Assert.assertEquals(xml.length, in.read(xml));
+
+            Assertions.assertThrows(NotXmlException.class, () -> {
+                MessageInfo messageInfo = new MessageInfoExtractor().extractInfo(xml);
+            });
+        }
+    }
+}

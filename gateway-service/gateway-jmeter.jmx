@@ -20,7 +20,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="receive" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="receive">
           <stringProp name="HTTPSampler.path">http://localhost:8080/receive</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
@@ -30,30 +30,33 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">&lt;?xml version=&quot;1.0&quot;?&gt;&#xd;
-&lt;customers&gt;&#xd;
-   &lt;customer id=&quot;55000&quot;&gt;&#xd;
-      &lt;name&gt;Charter Group&lt;/name&gt;&#xd;
-      &lt;address&gt;&#xd;
-         &lt;street&gt;100 Main&lt;/street&gt;&#xd;
-         &lt;city&gt;Framingham&lt;/city&gt;&#xd;
-         &lt;state&gt;MA&lt;/state&gt;&#xd;
-         &lt;zip&gt;01701&lt;/zip&gt;&#xd;
-      &lt;/address&gt;&#xd;
-      &lt;address&gt;&#xd;
-         &lt;street&gt;720 Prospect&lt;/street&gt;&#xd;
-         &lt;city&gt;Framingham&lt;/city&gt;&#xd;
-         &lt;state&gt;MA&lt;/state&gt;&#xd;
-         &lt;zip&gt;01701&lt;/zip&gt;&#xd;
-      &lt;/address&gt;&#xd;
-      &lt;address&gt;&#xd;
-         &lt;street&gt;120 Ridge&lt;/street&gt;&#xd;
-         &lt;state&gt;MA&lt;/state&gt;&#xd;
-         &lt;zip&gt;01760&lt;/zip&gt;&#xd;
-      &lt;/address&gt;&#xd;
-   &lt;/customer&gt;&#xd;
-&lt;/customers&gt;&#xd;
-</stringProp>
+                <stringProp name="Argument.value">&lt;env:Envelope xmlns:env=&quot;http://exchange.support/envelope&quot; xmlns:add=&quot;http://exchange.support/header/addressing&quot; xmlns:faul=&quot;http://exchange.support/utility/fault&quot; xmlns:not=&quot;http://exchange.support/utility/notification&quot; xmlns:exc=&quot;http://exchange.support/messages/exchange&quot;&gt;&#xd;
+  &lt;env:Header&gt;&#xd;
+    &lt;add:Addressing&gt;&#xd;
+      &lt;add:LifecycleID&gt;1111111111111111111111111&lt;/add:LifecycleID&gt;&#xd;
+      &lt;add:MessageID&gt;2222222222222222222222222&lt;/add:MessageID&gt;&#xd;
+      &lt;add:From&gt;123456789&lt;/add:From&gt;&#xd;
+      &lt;add:To&gt;333444555&lt;/add:To&gt;&#xd;
+      &lt;add:ReplyTo&gt;3333333333333333333333333&lt;/add:ReplyTo&gt;&#xd;
+    &lt;/add:Addressing&gt;&#xd;
+  &lt;/env:Header&gt;&#xd;
+  &lt;env:Body&gt;&#xd;
+    &lt;exc:ExchangeMessage&gt;&#xd;
+      &lt;exc:PersonDataType&gt;&#xd;
+        &lt;exc:FirstName&gt;Иванов&lt;/exc:FirstName&gt;&#xd;
+        &lt;exc:LastName&gt;Иван&lt;/exc:LastName&gt;&#xd;
+        &lt;exc:Patronymic&gt;Иванович&lt;/exc:Patronymic&gt;&#xd;
+        &lt;exc:BirthDate&gt;&#xd;
+          &lt;exc:year&gt;2000&lt;/exc:year&gt;&#xd;
+          &lt;exc:month&gt;--01&lt;/exc:month&gt;&#xd;
+          &lt;exc:day&gt;---15&lt;/exc:day&gt;&#xd;
+        &lt;/exc:BirthDate&gt;&#xd;
+        &lt;exc:Gender&gt;М&lt;/exc:Gender&gt;&#xd;
+      &lt;/exc:PersonDataType&gt;&#xd;
+      &lt;exc:Photo&gt;cHJlbWVyZQ==&lt;/exc:Photo&gt;&#xd;
+    &lt;/exc:ExchangeMessage&gt;&#xd;
+  &lt;/env:Body&gt;&#xd;
+&lt;/env:Envelope&gt;</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -107,7 +110,7 @@
           <stringProp name="filename"></stringProp>
         </ResultCollector>
         <hashTree/>
-        <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="Constant Throughput Timer" enabled="true">
+        <ConstantThroughputTimer guiclass="TestBeanGUI" testclass="ConstantThroughputTimer" testname="Constant Throughput Timer">
           <intProp name="calcMode">0</intProp>
           <doubleProp>
             <name>throughput</name>
