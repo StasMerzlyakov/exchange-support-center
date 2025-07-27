@@ -12,6 +12,9 @@ public class Constants {
     public static final String SERVICE_ID = "ServiceId";
     public static final String REQUEST_ID = "RequestId";
 
+    public static final String BLOB_PREFIX = "BLOBZ:";
+    public static final String BLOB_PREFIX_BASE64 = "QkxPQlo6";
+
     private static final String ENVELOPE_QNAME = "{http://exchange.support/envelope}Envelope";
     private static final String HEADER_QNAME = "{http://exchange.support/envelope}Header";
     private static final String ADDRESSING_QNAME = "{http://exchange.support/header/addressing}Addressing";

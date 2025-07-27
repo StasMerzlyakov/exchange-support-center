@@ -1,11 +1,12 @@
 plugins {
     alias(libs.plugins.bjornvester.xjc)
+    alias(libs.plugins.mijmh)
 }
 
 dependencies {
     xjcPlugins(libs.jvnet.jaxb2.basics)
-    implementation(libs.jakarta.bind.api)
     xjcPlugins(libs.jaxb.api)
+    implementation(libs.jakarta.bind.api)
     testRuntimeOnly(libs.jaxb.runtime)
 }
 

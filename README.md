@@ -39,7 +39,7 @@
 
 В проекте хотел бы отработать трассировку этих операций 
 
-## GateWay 
+## gateway 
 SpringCloudGateway reactive - сервис. Принимает данные, от внешней системы по определенном ендпоинту, делает проверу, 
 добавляет processId и роутит их на Receiver. 
 
@@ -65,6 +65,14 @@ SpringCloudGateway reactive - сервис. Принимает данные, о�
 
 [Описание настроек для gateway](docs/adr/001-gateway-hints.md)
 ![zipkin-tracing](docs/img/01-gateway-zipkin-tracing.png)
+
+
+## models
+Содержит DTO-модели (jaxb, json) + jmh - тесты
+![jaxb-jmh-results](docs/img/02-jmh-jaxb-results.png)
+### Используемые навыки:
+1. 13 - Разбор библиотеки Java Microbenchmark Harness
+
 
 ## Receiver
 java - REST-сервис. (reactor + swagger)

@@ -20,6 +20,7 @@ jvnet-jaxb2-basics = "1.1.0"
 jakarta-bind-api = "4.0.2"
 bjornvester-xjc = "1.8.2"
 jaxb-runtime = "4.0.5"
+murmur3 = "0.4.3"
 
 [plugins]
 freefair-lombok = { id = "io.freefair.lombok", version.ref = "lombok-plugin" }
@@ -49,6 +50,7 @@ java-uuid-generator = { module = "com.fasterxml.uuid:java-uuid-generator", versi
 spring-cloud-contract-wiremock = { module = "org.springframework.cloud:spring-cloud-contract-wiremock", version.ref = "spring-cloud-contract-wiremock" }
 redis-testcontainers = { module = "com.redis.testcontainers:testcontainers-redis", version.ref = "redis-testcontainers" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j-api" }
+murmur3 = { module = "com.github.eprst:murmur3", version.ref = "murmur3" }
 
 jaxb-runtime = { module = "org.glassfish.jaxb:jaxb-runtime", version.ref = "jaxb-runtime" }
 

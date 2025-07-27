@@ -13,4 +13,9 @@ plugins {
 rootProject.name = "exchange-support-service"
 include("gateway-service")
 include("common")
-include("schemas")
+include("models")
+include("models:xsd")
+findProject(":models:xsd")?.name = "xsd"
+include("models:mapping")
+include("models:jmh-tests")
+findProject(":models:jmh-tests")?.name = "jmh-tests"
