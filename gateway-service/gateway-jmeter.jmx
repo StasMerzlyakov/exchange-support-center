@@ -33,7 +33,6 @@
                 <stringProp name="Argument.value">&lt;env:Envelope xmlns:env=&quot;http://exchange.support/envelope&quot; xmlns:add=&quot;http://exchange.support/header/addressing&quot; xmlns:faul=&quot;http://exchange.support/utility/fault&quot; xmlns:not=&quot;http://exchange.support/utility/notification&quot; xmlns:exc=&quot;http://exchange.support/messages/exchange&quot;&gt;&#xd;
   &lt;env:Header&gt;&#xd;
     &lt;add:Addressing&gt;&#xd;
-      &lt;add:LifecycleID&gt;123456789${__RandomString(16,0123456789)}&lt;/add:LifecycleID&gt;&#xd;
       &lt;add:MessageID&gt;123456789${__RandomString(16,0123456789)}&lt;/add:MessageID&gt;&#xd;
       &lt;add:From&gt;123456789&lt;/add:From&gt;&#xd;
 &lt;add:To&gt;333444555&lt;/add:To&gt;&#xd;
@@ -73,7 +72,7 @@
           </HeaderManager>
           <hashTree/>
         </hashTree>
-        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
