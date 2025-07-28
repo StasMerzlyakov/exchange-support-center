@@ -19,9 +19,6 @@ public class Constants {
     private static final String HEADER_QNAME = "{http://exchange.support/envelope}Header";
     private static final String ADDRESSING_QNAME = "{http://exchange.support/header/addressing}Addressing";
 
-    public static final String LIFECYCLE_ID_PATH = joinStringStack(List.of(
-            ENVELOPE_QNAME, HEADER_QNAME, ADDRESSING_QNAME, "{http://exchange.support/header/addressing}LifecycleID"));
-
     public static final String MESSAGE_ID_PATH = joinStringStack(List.of(
             ENVELOPE_QNAME, HEADER_QNAME, ADDRESSING_QNAME, "{http://exchange.support/header/addressing}MessageID"));
 

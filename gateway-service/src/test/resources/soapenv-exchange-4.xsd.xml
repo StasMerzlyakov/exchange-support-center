@@ -1,7 +1,6 @@
 <env:Envelope xmlns:env="http://exchange.support/envelope" xmlns:add="http://exchange.support/header/addressing" xmlns:faul="http://exchange.support/utility/fault" xmlns:not="http://exchange.support/utility/notification" xmlns:exc="http://exchange.support/messages/exchange">
   <env:Header>
     <add:Addressing>
-      <add:LifecycleID>2222222222222222222222222</add:LifecycleID>
       <add:MessageID>1363541191856564</add:MessageID>
       <add:From>123456789</add:From>
       <add:To>12345666</add:To>

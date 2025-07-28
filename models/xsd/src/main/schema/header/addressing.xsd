@@ -15,7 +15,6 @@
 
     <xsd:complexType name="AddressingHeaderType">
         <xsd:sequence>
-            <xsd:element name="LifecycleID" type="wsa:LifecycleIDType"/>
             <xsd:element name="MessageID" type="wsa:MessageIDType"/>
             <xsd:element name="From" type="wsa:AttributedURI"/>
             <xsd:element name="To" type="wsa:AttributedURI"/>
@@ -27,18 +26,6 @@
         <xsd:annotation>
             <xsd:documentation xml:lang="ru">
                 Уникальный идентификатор сообщения.
-            </xsd:documentation>
-        </xsd:annotation>
-        <xsd:restriction base="xsd:string">
-            <xsd:length value="25"/>
-            <xsd:pattern value="\d{25}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="LifecycleIDType">
-        <xsd:annotation>
-            <xsd:documentation xml:lang="ru">
-                Уникальный идентификатор делового процесса. Присваивается при создании нового бизнес-процесса.
             </xsd:documentation>
         </xsd:annotation>
         <xsd:restriction base="xsd:string">

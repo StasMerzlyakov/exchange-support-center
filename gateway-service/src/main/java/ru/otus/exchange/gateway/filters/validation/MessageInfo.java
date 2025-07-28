@@ -10,10 +10,6 @@ import lombok.Data;
 @Data
 @Builder
 public class MessageInfo {
-    @Size(max = 25, min = 25, message = "Field LifecycleID have wrong size")
-    @Pattern(regexp = "\\d+", message = "Field LifecycleID does not match regexp pattern")
-    @NotNull(message = "Field LifecycleID is null")
-    private String lifecycleID;
 
     @NotNull(message = "Field MessageID is null")
     @Size(max = 25, min = 25, message = "Field MessageID have wrong size")

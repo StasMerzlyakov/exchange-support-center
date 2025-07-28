@@ -22,7 +22,6 @@ class MessageInfoExtractorTest {
 
             Assertions.assertDoesNotThrow(() -> {
                 MessageInfo messageInfo = new MessageInfoExtractor().extractInfo(xml);
-                assertEquals("1111111111111111111111111", messageInfo.getLifecycleID());
                 assertEquals("2222222222222222222222222", messageInfo.getMessageID());
                 assertEquals("123456789", messageInfo.getFrom());
                 assertEquals("333444555", messageInfo.getTo());
@@ -40,7 +39,6 @@ class MessageInfoExtractorTest {
 
             Assertions.assertDoesNotThrow(() -> {
                 MessageInfo messageInfo = new MessageInfoExtractor().extractInfo(xml);
-                assertEquals("1111111111111111111111111", messageInfo.getLifecycleID());
                 assertEquals("2222222222222222222222222", messageInfo.getMessageID());
                 assertEquals("123456789", messageInfo.getFrom());
                 assertEquals("333444555", messageInfo.getTo());

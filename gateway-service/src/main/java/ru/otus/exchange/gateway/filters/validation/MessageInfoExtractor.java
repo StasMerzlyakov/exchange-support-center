@@ -17,13 +17,11 @@ public class MessageInfoExtractor {
     @Observed(name = "extractInfo")
     public MessageInfo extractInfo(byte[] message) throws NotXmlException, IOException {
         XPathSearcher searcher = new XPathSearcher(new ByteArrayInputStream(message));
-        List<String> qnamePathList =
-                List.of(LIFECYCLE_ID_PATH, MESSAGE_ID_PATH, FROM_PATH, TO_PATH, REPLY_TO_PATH, BODY_CONTENT_PATH);
+        List<String> qnamePathList = List.of(MESSAGE_ID_PATH, FROM_PATH, TO_PATH, REPLY_TO_PATH, BODY_CONTENT_PATH);
 
         Map<String, String> result = searcher.getValuesByPath(qnamePathList);
 
         return MessageInfo.builder()
-                .lifecycleID(result.get(LIFECYCLE_ID_PATH))
                 .messageID(result.get(MESSAGE_ID_PATH))
                 .from(result.get(FROM_PATH))
                 .to(result.get(TO_PATH))
