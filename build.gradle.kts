@@ -143,6 +143,8 @@ allprojects {
             force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.25")
 
             force("javax.xml.bind:jaxb-api:2.3.0")
+
+            force("org.junit:junit-bom:5.12.2")
         }
     }
 }

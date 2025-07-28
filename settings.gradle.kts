@@ -19,3 +19,6 @@ findProject(":models:xsd")?.name = "xsd"
 include("models:mapping")
 include("models:jmh-tests")
 findProject(":models:jmh-tests")?.name = "jmh-tests"
+include("jfr-image")
+include("jfr-image:helper")
+findProject(":jfr-image:helper")?.name = "helper"

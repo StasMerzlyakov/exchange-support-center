@@ -33,7 +33,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         tempFileName=tempfile.NamedTemporaryFile()
         tempFileName.close()
         fName=tempFileName.name + ".jfr"
-        command=["./run_jcmd.sh", fName, parsed.query]
+        command=["/run_jcmd.sh", fName, parsed.query]
         try:
              result = run(command, encoding='utf-8', stderr=PIPE)
         except CalledProcessError as e:
