@@ -22,3 +22,6 @@ findProject(":models:jmh-tests")?.name = "jmh-tests"
 include("jfr-image")
 include("jfr-image:helper")
 findProject(":jfr-image:helper")?.name = "helper"
+include("blob-storage")
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

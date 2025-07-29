@@ -15,7 +15,6 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,7 +46,7 @@ class ValidationInputXMLTest {
 
         try (InputStream in = ValidationInputXMLTest.class.getResourceAsStream("/soapenv-exchange-1.xsd.xml")) {
             byte[] xml = new byte[Objects.requireNonNull(in).available()];
-            Assert.assertEquals(xml.length, in.read(xml));
+            Assertions.assertEquals(xml.length, in.read(xml));
 
             assertThat(environment.containsProperty("wiremock.server.port")).isTrue();
 
@@ -76,7 +75,7 @@ class ValidationInputXMLTest {
 
         try (InputStream in = ValidationInputXMLTest.class.getResourceAsStream("/soapenv-exchange-4.xsd.xml")) {
             byte[] xml = new byte[Objects.requireNonNull(in).available()];
-            Assert.assertEquals(xml.length, in.read(xml));
+            Assertions.assertEquals(xml.length, in.read(xml));
 
             assertThat(environment.containsProperty("wiremock.server.port")).isTrue();
 

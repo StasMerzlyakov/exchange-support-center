@@ -4,19 +4,20 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(projects.common)
     implementation(platform(libs.spring.boot.dependencies))
     implementation(platform(libs.spring.cloud.dependencies))
 
     compileOnly(libs.project.lombok)
     annotationProcessor(libs.project.lombok)
 
-    implementation("org.springframework.cloud:spring-cloud-starter-gateway-server-webflux")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
-    implementation("org.springframework.boot:spring-boot-starter-aop")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation(libs.cloud.starter.webflux)
+    implementation(libs.starter.webflux)
+    implementation(libs.starter.redis.reactive)
+
+    implementation(libs.starter.actuator)
+    implementation(libs.starter.aop)
+    implementation(libs.starter.validation)
 
     implementation(libs.java.uuid.generator)
 
@@ -33,6 +34,4 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     testImplementation(libs.spring.cloud.contract.wiremock)
     testImplementation(libs.redis.testcontainers)
-
-    testImplementation("org.testcontainers:junit-jupiter")
 }

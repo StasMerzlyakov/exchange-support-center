@@ -81,8 +81,8 @@ allprojects {
     dependencies {
         testImplementation(platform(rootProject.libs.junit.bom))
         testImplementation(platform(rootProject.libs.testcontainers.bom))
-        testImplementation("org.junit.jupiter:junit-jupiter")
-        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+        testImplementation(rootProject.libs.junit.jupiter)
+        testRuntimeOnly(rootProject.libs.junit.platform.launcher)
     }
 
     configurations.all {

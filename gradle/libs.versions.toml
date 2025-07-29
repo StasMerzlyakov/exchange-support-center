@@ -21,6 +21,7 @@ jakarta-bind-api = "4.0.2"
 bjornvester-xjc = "1.8.2"
 jaxb-runtime = "4.0.5"
 murmur3 = "0.4.3"
+minio = "8.5.17"
 
 [plugins]
 freefair-lombok = { id = "io.freefair.lombok", version.ref = "lombok-plugin" }
@@ -43,7 +44,14 @@ spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-d
 jaxb-api = { module = "javax.xml.bind:jaxb-api", version.ref = "jaxb-api" }
 jvnet-jaxb2-basics = { module = "org.jvnet.jaxb2_commons:jaxb2-basics-annotate", version.ref = "jvnet-jaxb2-basics" }
 jakarta-bind-api = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version.ref = "jakarta-bind-api" }
-
+starter-webflux = { group = "org.springframework.boot", name = "spring-boot-starter-webflux" }
+starter-redis-reactive = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis-reactive" }
+cloud-starter-webflux = { group = "org.springframework.cloud", name = "spring-cloud-starter-gateway-server-webflux" }
+starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
+starter-aop = { group = "org.springframework.boot", name = "spring-boot-starter-aop"}
+starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation"}
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter"}
+junit-platform-launcher = {group = "org.junit.platform", name = "junit-platform-launcher"}
 
 project-lombok = { module = "org.projectlombok:lombok", version.ref = "project-lombok" }
 java-uuid-generator = { module = "com.fasterxml.uuid:java-uuid-generator", version.ref = "java-uuid-generator" }

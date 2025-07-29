@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":models:xsd"))
+    implementation(projects.models.xsd)
     implementation(libs.jakarta.bind.api)
     testRuntimeOnly(libs.jaxb.runtime)
 }
