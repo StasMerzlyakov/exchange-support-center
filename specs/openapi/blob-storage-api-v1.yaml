@@ -1,0 +1,160 @@
+openapi: 3.0.4
+info:
+  title: OpenAPI definition
+  version: v1.0
+servers:
+  - url: http://blob-storage/storage
+    description: Generated server url
+paths:
+  /api/v1.0/{key}:
+    get:
+      tags:
+        - blob-storage
+      summary: read object
+      operationId: read
+      parameters:
+        - name: ProcessGUID
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: key
+          in: path
+          required: true
+          description: "any string"
+          schema:
+            type: string
+          example: '5300770012024112600005231'
+      responses:
+        '200':
+          description: object is exists
+          content:
+            application/octet-stream:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: byte
+        '204':
+          description: object is not exists
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ServerError'
+    post:
+      tags:
+        - blob-storage
+      summary: write object
+      operationId: write
+      parameters:
+        - name: ProcessGUID
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: key
+          in: path
+          required: true
+          description: "any string"
+          schema:
+            type: string
+          example: '5300770012024112600005231'
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: array
+              items:
+                type: string
+                format: byte
+        required: true
+      responses:
+        '200':
+          description: object already exists
+        '201':
+          description: object created
+        '403':
+          description: object's differ
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ServerError'
+    delete:
+      tags:
+        - blob-storage
+      summary: delete object
+      operationId: delete
+      parameters:
+        - name: ProcessGUID
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: key
+          in: path
+          required: true
+          description: "any string"
+          schema:
+            type: string
+          example: '5300770012024112600005231'
+      responses:
+        '200':
+          description: object deleted
+        '204':
+          description: object is not exists             
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ServerError'
+    head:
+      tags:
+        - blob-storage
+      summary: check is object exists
+      operationId: isExist
+      parameters:
+        - name: ProcessGUID
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: key
+          in: path
+          required: true
+          description: "any string"
+          schema:
+            type: string
+          example: '5300770012024112600005231'
+      responses:
+        '200':
+          description: object is exists
+        '204':
+          description: object is not exists
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ServerError'
+components:
+  schemas:
+      ServerError:
+        required:
+          - code
+          - message
+        type: object
+        properties:
+          code:
+            type: integer
+          message:
+            type: string
+  

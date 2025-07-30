@@ -21,17 +21,17 @@ dependencies {
 
     implementation(libs.java.uuid.generator)
 
-    implementation("io.micrometer:micrometer-registry-prometheus")
-    implementation("io.micrometer:micrometer-tracing-bridge-otel")
-    implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
+    implementation(libs.micrometer.registry.prometheus)
+    implementation(libs.micrometer.tracing.bridge.otel)
+    implementation(libs.opentelemetry.exporter.zipkin)
 
     implementation(platform(libs.opentelemetry.instrumentation.bom))
-    implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations")
+    implementation(libs.opentelemetry.instrumentation.annotations)
 
-    implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j")
+    implementation(libs.spring.cloud.starter.circuitbreaker.reactor.resilience4j)
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.projectreactor:reactor-test")
+    testImplementation(libs.spring.boot.starter.test)
+    testImplementation(libs.reactor.test)
     testImplementation(libs.spring.cloud.contract.wiremock)
     testImplementation(libs.redis.testcontainers)
 }

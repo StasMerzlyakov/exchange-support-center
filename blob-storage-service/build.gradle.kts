@@ -15,6 +15,7 @@ dependencies {
 
     implementation(libs.starter.actuator)
     implementation(libs.starter.aop)
+    implementation(libs.minio)
 
     testImplementation(libs.junit.jupiter)
 }

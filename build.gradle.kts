@@ -155,6 +155,11 @@ java {
     }
 }
 
+ext {
+    val specDir = layout.projectDirectory.dir("./specs")
+    set("openapi-spec-v1", specDir.file("openapi/blob-storage-api-v1.yaml").toString())
+}
+
 
 tasks.test {
     useJUnitPlatform()
