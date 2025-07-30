@@ -27,3 +27,7 @@ include("blob-storage-service")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include("blob-storage-service:blob-storage-api-v1-jackson")
 findProject(":blob-storage-service:blob-storage-api-v1-jackson")?.name = "blob-storage-api-v1-jackson"
+include("blob-storage-service:blob-storage-core")
+findProject(":blob-storage-service:blob-storage-core")?.name = "blob-storage-core"
+include("blob-storage-service:blob-storage-spring")
+findProject(":blob-storage-service:blob-storage-spring")?.name = "blob-storage-spring"

@@ -4,7 +4,7 @@ info:
   version: v1.0
 servers:
   - url: http://blob-storage/storage
-    description: Generated server url
+    description: sample server url
 paths:
   /api/v1.0/{key}:
     get:
@@ -13,19 +13,19 @@ paths:
       summary: read object
       operationId: read
       parameters:
-        - name: ProcessGUID
+        - name: exchange
           in: header
           required: true
           schema:
             type: string
-            format: uuid
+            format: string
         - name: key
           in: path
           required: true
           description: "any string"
           schema:
             type: string
-          example: '5300770012024112600005231'
+          example: 'test_blob'
       responses:
         '200':
           description: object is exists
@@ -44,25 +44,43 @@ paths:
             application/json:
               schema:
                  $ref: '#/components/schemas/ServerError'
+        '530':
+          description: memory cache error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        '531':
+          description: redis cache error error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        '532':
+          description: minio storage error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
     post:
       tags:
         - blob-storage
       summary: write object
       operationId: write
       parameters:
-        - name: ProcessGUID
+        - name: exchange
           in: header
           required: true
           schema:
             type: string
-            format: uuid
+            format: string
         - name: key
           in: path
           required: true
           description: "any string"
           schema:
             type: string
-          example: '5300770012024112600005231'
+          example: 'test_blob'
       requestBody:
         content:
           application/octet-stream:
@@ -85,25 +103,43 @@ paths:
             application/json:
               schema:
                  $ref: '#/components/schemas/ServerError'
+        '530':
+          description: memory cache error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        '531':
+          description: redis cache error error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        '532':
+          description: minio storage error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
     delete:
       tags:
         - blob-storage
       summary: delete object
       operationId: delete
       parameters:
-        - name: ProcessGUID
+        - name: exchange
           in: header
           required: true
           schema:
             type: string
-            format: uuid
+            format: string
         - name: key
           in: path
           required: true
           description: "any string"
           schema:
             type: string
-          example: '5300770012024112600005231'
+          example: 'test_blob'
       responses:
         '200':
           description: object deleted
@@ -115,25 +151,43 @@ paths:
             application/json:
               schema:
                  $ref: '#/components/schemas/ServerError'
+        '530':
+          description: memory cache error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        '531':
+          description: redis cache error error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        '532':
+          description: minio storage error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
     head:
       tags:
         - blob-storage
       summary: check is object exists
       operationId: isExist
       parameters:
-        - name: ProcessGUID
+        - name: exchange
           in: header
           required: true
           schema:
             type: string
-            format: uuid
+            format: string
         - name: key
           in: path
           required: true
           description: "any string"
           schema:
             type: string
-          example: '5300770012024112600005231'
+          example: 'test_blob'
       responses:
         '200':
           description: object is exists
@@ -145,6 +199,67 @@ paths:
             application/json:
               schema:
                  $ref: '#/components/schemas/ServerError'
+        '530':
+          description: memory cache error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        '531':
+          description: redis cache error error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        '532':
+          description: minio storage error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+  /api/v1.0/:
+    delete:
+      tags:
+        - blob-storage
+      summary: delete all objects object
+      operationId: deleteAll
+      parameters:
+        - name: exchange
+          in: header
+          required: true
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: exchange deleted
+        '204':
+          description: exchange is not exists             
+        '500':
+          description: internal server error
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ServerError'
+        '530':
+          description: memory cache error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        '531':
+          description: redis cache error error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        '532':
+          description: minio storage error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+
 components:
   schemas:
       ServerError:
