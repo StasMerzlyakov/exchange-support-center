@@ -6,4 +6,8 @@ public class MemoryException extends CommonStorageException {
     public MemoryException(String message) {
         super(message);
     }
+
+    public MemoryException(Throwable throwable) {
+        super(throwable);
+    }
 }

@@ -24,7 +24,7 @@ public class ChainStorage implements Storage {
 
     @Override
     public Mono<Boolean> write(StorageKey storageKey, StorageData storageData) {
-        return null;
+        return next.write(storageKey, storageData).doOnSuccess(result -> current.write(storageKey, storageData));
     }
 
     @Override
