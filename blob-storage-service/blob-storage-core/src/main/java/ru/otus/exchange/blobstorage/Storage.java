@@ -1,5 +1,6 @@
 package ru.otus.exchange.blobstorage;
 
+import java.nio.ByteBuffer;
 import reactor.core.publisher.Mono;
 
 public interface Storage {
@@ -7,7 +8,7 @@ public interface Storage {
 
     // true - object created
     // false - same object already exists
-    Mono<Boolean> write(StorageKey storageKey, StorageData storageData);
+    Mono<Boolean> write(StorageKey storageKey, ByteBuffer byteBuffer);
 
     // true - delete success
     // false - no data found to delete

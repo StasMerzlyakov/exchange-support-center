@@ -1,5 +1,6 @@
 package ru.otus.exchange.blobstorage;
 
+import java.nio.ByteBuffer;
 import java.util.concurrent.Future;
 
 public interface FutureStorage {
@@ -7,7 +8,7 @@ public interface FutureStorage {
 
     Future<Metadata> readMetadataFuture(StorageKey storageKey);
 
-    Future<Boolean> writeFuture(StorageKey storageKey, StorageData storageData);
+    Future<Boolean> writeFuture(StorageKey storageKey, ByteBuffer byteBuffer);
 
     Future<Boolean> deleteFuture(StorageKey storageKey);
 

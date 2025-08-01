@@ -1,5 +1,6 @@
 package ru.otus.exchange.blobstorage;
 
+import java.nio.ByteBuffer;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
@@ -17,14 +18,14 @@ public class ChainStorage implements Storage {
     @Override
     public Mono<StorageData> read(StorageKey storageKey) {
         return current.read(storageKey)
-                .switchIfEmpty(Mono.defer(
-                        () -> next.read(storageKey).doOnNext(storageData -> current.write(storageKey, storageData))))
+                .switchIfEmpty(Mono.defer(() -> next.read(storageKey)
+                        .doOnNext(storageData -> current.write(storageKey, storageData.byteBuffer()))))
                 .doOnError(Mono::error);
     }
 
     @Override
-    public Mono<Boolean> write(StorageKey storageKey, StorageData storageData) {
-        return next.write(storageKey, storageData).doOnSuccess(result -> current.write(storageKey, storageData));
+    public Mono<Boolean> write(StorageKey storageKey, ByteBuffer byteBuffer) {
+        return next.write(storageKey, byteBuffer).doOnSuccess(result -> current.write(storageKey, byteBuffer));
     }
 
     @Override
@@ -41,7 +42,7 @@ public class ChainStorage implements Storage {
     public Mono<Metadata> getMetadata(StorageKey storageKey) {
         return current.getMetadata(storageKey)
                 .switchIfEmpty(Mono.defer(() -> next.read(storageKey)
-                        .doOnNext(storageData -> current.write(storageKey, storageData))
+                        .doOnNext(storageData -> current.write(storageKey, storageData.byteBuffer()))
                         .map(StorageData::metadata)))
                 .doOnError(Mono::error);
     }

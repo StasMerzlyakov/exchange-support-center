@@ -1,7 +1,7 @@
 package ru.otus.exchange.blobstorage.minio;
 
-import static ru.otus.exchange.blobstorage.minio.MinioFutureStorage.OBJECT_SHA256_DIGEST;
-import static ru.otus.exchange.blobstorage.minio.MinioFutureStorage.OBJECT_SIZE_TAG;
+import static ru.otus.exchange.blobstorage.minio.MinoSyncClientStorage.OBJECT_SHA256_DIGEST;
+import static ru.otus.exchange.blobstorage.minio.MinoSyncClientStorage.OBJECT_SIZE_TAG;
 
 import io.minio.GetObjectTagsArgs;
 import io.minio.MakeBucketArgs;
@@ -16,7 +16,7 @@ import ru.otus.exchange.blobstorage.Metadata;
 import ru.otus.exchange.blobstorage.StorageData;
 import ru.otus.exchange.blobstorage.StorageKey;
 
-class MinioFutureStorageWriteTest {
+class MinoSyncClientStorageWriteTest {
 
     private static final String ACCESS_KEY = "accessKey";
     private static final String SECRET_KEY = "secretKey";
@@ -53,7 +53,7 @@ class MinioFutureStorageWriteTest {
 
     @SneakyThrows
     @Test
-    @DisplayName("write + readMetadata+ delete")
+    @DisplayName("write + readMetadata + delete")
     void test1() {
         String exchange = "exchange";
         String key = "key";
@@ -61,54 +61,10 @@ class MinioFutureStorageWriteTest {
 
         StorageKey storageKey = new StorageKey(exchange, key);
 
-        MinioFutureStorage futureStorage = new MinioFutureStorage(minioClient, minioConfig);
+        MinioSyncStorage syncClientStorage = new MinoSyncClientStorage(minioClient, minioConfig);
 
-        Assertions.assertDoesNotThrow(() -> Assertions.assertTrue(
-                futureStorage.writeFuture(storageKey, storageData).get()));
-
-        String objectPath = String.join("/", exchange, key);
-
-        var tags = minioClient.getObjectTags(GetObjectTagsArgs.builder()
-                .bucket(minioConfig.bucket())
-                .object(objectPath)
-                .build());
-
-        Assertions.assertNotNull(tags);
-
-        var size = Integer.parseInt(tags.get().get(OBJECT_SIZE_TAG));
-        var sha256Digest = tags.get().get(OBJECT_SHA256_DIGEST);
-
-        Assertions.assertEquals(storageData.metadata().size(), size);
-        Assertions.assertEquals(storageData.metadata().sha256Digest(), sha256Digest);
-
-        Assertions.assertDoesNotThrow(() -> {
-            var metadata = futureStorage.readMetadataFuture(storageKey).get();
-            Assertions.assertEquals(storageData.metadata().size(), metadata.size());
-            Assertions.assertEquals(storageData.metadata().sha256Digest(), metadata.sha256Digest());
-        });
-
-        Assertions.assertDoesNotThrow(() -> {
-            futureStorage.deleteAllFuture(exchange).get();
-        });
-
-        var metadata = futureStorage.readMetadataFuture(storageKey).get();
-        Assertions.assertNull(metadata);
-    }
-
-    @SneakyThrows
-    @Test
-    @DisplayName("write + readMetadata + delete")
-    void test2() {
-        String exchange = "exchange";
-        String key = "key";
-        StorageData storageData = createStorageDataObject();
-
-        StorageKey storageKey = new StorageKey(exchange, key);
-
-        MinioFutureStorage futureStorage = new MinioFutureStorage(minioClient, minioConfig);
-
-        Assertions.assertDoesNotThrow(() -> Assertions.assertTrue(
-                futureStorage.writeFuture(storageKey, storageData).get()));
+        Assertions.assertDoesNotThrow(
+                () -> Assertions.assertTrue(syncClientStorage.writeObject(storageKey, storageData.byteBuffer())));
 
         String objectPath = String.join("/", exchange, key);
 
@@ -126,17 +82,24 @@ class MinioFutureStorageWriteTest {
         Assertions.assertEquals(storageData.metadata().sha256Digest(), sha256Digest);
 
         Assertions.assertDoesNotThrow(() -> {
-            var metadata = futureStorage.readMetadataFuture(storageKey).get();
+            var metadata = syncClientStorage.readMetadata(storageKey);
             Assertions.assertEquals(storageData.metadata().size(), metadata.size());
             Assertions.assertEquals(storageData.metadata().sha256Digest(), metadata.sha256Digest());
         });
 
         Assertions.assertDoesNotThrow(() -> {
-            futureStorage.deleteFuture(storageKey).get();
+            var list = syncClientStorage.listExchange(exchange);
+            list.forEach(sKey -> {
+                syncClientStorage.removeObject(sKey);
+                syncClientStorage.removeMetadata(sKey);
+            });
         });
 
-        var metadata = futureStorage.readMetadataFuture(storageKey).get();
+        var metadata = syncClientStorage.readMetadata(storageKey);
         Assertions.assertNull(metadata);
+
+        var obj = syncClientStorage.readObject(storageKey);
+        Assertions.assertNull(obj);
     }
 
     @SneakyThrows
@@ -149,7 +112,7 @@ class MinioFutureStorageWriteTest {
         var byteBuffer = ByteBuffer.allocate(byteArray.length);
         byteBuffer.put(byteArray);
         byteBuffer.flip();
-        String sha256Digest = MinioFutureStorage.hexDigest(byteArray);
+        String sha256Digest = MinoSyncClientStorage.hexDigest(byteArray);
 
         return new StorageData(new Metadata(size, sha256Digest), byteBuffer);
     }
