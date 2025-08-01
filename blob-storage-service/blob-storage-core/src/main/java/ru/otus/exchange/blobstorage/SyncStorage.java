@@ -1,14 +1,12 @@
-package ru.otus.exchange.blobstorage.minio;
+package ru.otus.exchange.blobstorage;
 
 import java.nio.ByteBuffer;
 import java.util.List;
-import ru.otus.exchange.blobstorage.Metadata;
-import ru.otus.exchange.blobstorage.StorageKey;
 
-public interface MinioSyncStorage {
+public interface SyncStorage {
     List<StorageKey> listExchange(String exchange);
 
-    boolean writeObject(StorageKey storageKey, ByteBuffer byteBuffer);
+    boolean writeObject(StorageKey storageKey, StorageData storageData);
 
     Metadata readMetadata(StorageKey storageKey);
 

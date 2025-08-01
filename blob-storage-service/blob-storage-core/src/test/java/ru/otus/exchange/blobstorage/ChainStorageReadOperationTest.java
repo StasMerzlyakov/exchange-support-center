@@ -62,7 +62,7 @@ class ChainStorageReadOperationTest {
         Assertions.assertEquals(storageData2, actual);
         verify(currentStorage, times(1)).read(any());
         verify(nextStorage, times(1)).read(any());
-        verify(currentStorage, times(1)).write(storageKey, byteBuffer2);
+        verify(currentStorage, times(1)).write(storageKey, storageData2);
     }
 
     @SneakyThrows

@@ -1,6 +1,5 @@
 package ru.otus.exchange.blobstorage.minio;
 
-import java.nio.ByteBuffer;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -26,9 +25,9 @@ public class MinioStorage implements Storage {
     }
 
     @Override
-    public Mono<Boolean> write(StorageKey storageKey, ByteBuffer byteBuffer) {
+    public Mono<Boolean> write(StorageKey storageKey, StorageData storageData) {
         return Mono.fromCallable(
-                () -> futureStorage.writeFuture(storageKey, byteBuffer).get(waitSeconds, TimeUnit.SECONDS));
+                () -> futureStorage.writeFuture(storageKey, storageData).get(waitSeconds, TimeUnit.SECONDS));
     }
 
     @Override

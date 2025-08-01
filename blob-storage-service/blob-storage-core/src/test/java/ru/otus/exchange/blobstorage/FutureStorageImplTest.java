@@ -1,4 +1,4 @@
-package ru.otus.exchange.blobstorage.minio;
+package ru.otus.exchange.blobstorage;
 
 import static org.mockito.Mockito.*;
 
@@ -11,16 +11,14 @@ import java.util.concurrent.atomic.AtomicReference;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
-import ru.otus.exchange.blobstorage.Metadata;
-import ru.otus.exchange.blobstorage.StorageData;
-import ru.otus.exchange.blobstorage.StorageKey;
+import ru.otus.exchange.blobstorage.minio.MinioConfig;
 
-class MinioFutureStorageReadTest {
+class FutureStorageImplTest {
 
     @Test
     @DisplayName("read data")
     void test1() {
-        MinioSyncStorage syncStorage = Mockito.mock(MinioSyncStorage.class);
+        SyncStorage syncStorage = Mockito.mock(SyncStorage.class);
 
         StorageKey storageKey = new StorageKey("exchange", "key");
 
@@ -28,7 +26,7 @@ class MinioFutureStorageReadTest {
 
         MinioConfig minioConfig = new MinioConfig("", Duration.ofSeconds(5));
 
-        MinioFutureStorage futureStorage = new MinioFutureStorage(minioConfig, syncStorage);
+        FutureStorageImpl futureStorage = new FutureStorageImpl(minioConfig, syncStorage);
 
         AtomicReference<StorageData> storageDataRef = new AtomicReference<>();
 
@@ -49,7 +47,7 @@ class MinioFutureStorageReadTest {
     @Test
     @DisplayName("write data")
     void test2() {
-        MinioSyncStorage syncStorage = Mockito.mock(MinioSyncStorage.class);
+        SyncStorage syncStorage = Mockito.mock(SyncStorage.class);
 
         StorageKey storageKey = new StorageKey("exchange", "key");
 
@@ -57,29 +55,27 @@ class MinioFutureStorageReadTest {
 
         MinioConfig minioConfig = new MinioConfig("", Duration.ofSeconds(5));
 
-        MinioFutureStorage futureStorage = new MinioFutureStorage(minioConfig, syncStorage);
-        when(syncStorage.writeObject(storageKey, expectedStorageData.byteBuffer()))
-                .thenReturn(true);
+        FutureStorageImpl futureStorage = new FutureStorageImpl(minioConfig, syncStorage);
+        when(syncStorage.writeObject(storageKey, expectedStorageData)).thenReturn(true);
 
         AtomicReference<Boolean> resultRef = new AtomicReference<>();
-        Assertions.assertDoesNotThrow(() -> resultRef.set(futureStorage
-                .writeFuture(storageKey, expectedStorageData.byteBuffer())
-                .get()));
+        Assertions.assertDoesNotThrow(() -> resultRef.set(
+                futureStorage.writeFuture(storageKey, expectedStorageData).get()));
         Assertions.assertTrue(resultRef.get());
 
-        verify(syncStorage, times(1)).writeObject(storageKey, expectedStorageData.byteBuffer());
+        verify(syncStorage, times(1)).writeObject(storageKey, expectedStorageData);
     }
 
     @Test
     @DisplayName("delete data")
     void test3() {
-        MinioSyncStorage syncStorage = Mockito.mock(MinioSyncStorage.class);
+        SyncStorage syncStorage = Mockito.mock(SyncStorage.class);
 
         StorageKey storageKey = new StorageKey("exchange", "key");
 
         MinioConfig minioConfig = new MinioConfig("", Duration.ofSeconds(5));
 
-        MinioFutureStorage futureStorage = new MinioFutureStorage(minioConfig, syncStorage);
+        FutureStorageImpl futureStorage = new FutureStorageImpl(minioConfig, syncStorage);
 
         List<StorageKey> storageKeyList = new ArrayList<>();
         storageKeyList.add(storageKey);
@@ -106,7 +102,7 @@ class MinioFutureStorageReadTest {
         Random random = new Random();
         random.nextBytes(byteArray);
 
-        String sha256Digest = MinoSyncClientStorage.hexDigest(byteArray);
+        String sha256Digest = Storage.hexDigest(byteArray);
 
         return new StorageData(new Metadata(size, sha256Digest), ByteBuffer.wrap(byteArray));
     }

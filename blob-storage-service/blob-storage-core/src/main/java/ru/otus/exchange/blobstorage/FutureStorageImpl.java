@@ -1,23 +1,23 @@
-package ru.otus.exchange.blobstorage.minio;
+package ru.otus.exchange.blobstorage;
 
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import lombok.extern.slf4j.Slf4j;
-import ru.otus.exchange.blobstorage.*;
+import ru.otus.exchange.blobstorage.minio.MinioConfig;
 
 @Slf4j
-public class MinioFutureStorage implements FutureStorage {
+public class FutureStorageImpl implements FutureStorage {
 
-    private final MinioSyncStorage minioSyncStorage;
+    private final SyncStorage syncStorage;
 
     private final ExecutorService executor;
 
     private final long waitSecond;
 
-    public MinioFutureStorage(MinioConfig minioConfig, MinioSyncStorage minioSyncStorage) {
-        this.minioSyncStorage = minioSyncStorage;
+    public FutureStorageImpl(MinioConfig minioConfig, SyncStorage syncStorage) {
+        this.syncStorage = syncStorage;
         this.executor = Executors.newCachedThreadPool();
         this.waitSecond = minioConfig.opTimeout().getSeconds();
     }
@@ -30,7 +30,7 @@ public class MinioFutureStorage implements FutureStorage {
             Map<String, Object> threadResult = new ConcurrentHashMap<>();
 
             new Thread(() -> {
-                        var metadata = minioSyncStorage.readMetadata(storageKey);
+                        var metadata = syncStorage.readMetadata(storageKey);
                         if (metadata != null) {
                             threadResult.put(META_KEY, metadata);
                         }
@@ -39,7 +39,7 @@ public class MinioFutureStorage implements FutureStorage {
                     .start();
 
             new Thread(() -> {
-                        var byteBuffer = minioSyncStorage.readObject(storageKey);
+                        var byteBuffer = syncStorage.readObject(storageKey);
                         if (byteBuffer != null) {
                             threadResult.put(OBJECT_KEY, byteBuffer);
                         }
@@ -67,7 +67,7 @@ public class MinioFutureStorage implements FutureStorage {
             CountDownLatch downLatch = new CountDownLatch(1);
             Map<String, Object> threadResult = new ConcurrentHashMap<>();
             new Thread(() -> {
-                        var metadata = minioSyncStorage.readMetadata(storageKey);
+                        var metadata = syncStorage.readMetadata(storageKey);
                         if (metadata != null) {
                             threadResult.put(META_KEY, metadata);
                         }
@@ -83,13 +83,13 @@ public class MinioFutureStorage implements FutureStorage {
     }
 
     @Override
-    public Future<Boolean> writeFuture(StorageKey storageKey, ByteBuffer byteBuffer) {
+    public Future<Boolean> writeFuture(StorageKey storageKey, StorageData storageData) {
         return executor.submit(() -> {
             CountDownLatch downLatch = new CountDownLatch(1);
             Map<String, Boolean> threadResult = new ConcurrentHashMap<>();
 
             new Thread(() -> {
-                        var result = minioSyncStorage.writeObject(storageKey, byteBuffer);
+                        var result = syncStorage.writeObject(storageKey, storageData);
                         threadResult.put(WRITE_RESULT_KEY, result);
                         downLatch.countDown();
                     })
@@ -109,14 +109,14 @@ public class MinioFutureStorage implements FutureStorage {
             Map<String, Boolean> threadResult = new ConcurrentHashMap<>();
 
             new Thread(() -> {
-                        var result = minioSyncStorage.removeMetadata(storageKey);
+                        var result = syncStorage.removeMetadata(storageKey);
                         threadResult.put(DELETE_META_RESULT_KEY, result);
                         downLatch.countDown();
                     })
                     .start();
 
             new Thread(() -> {
-                        var result = minioSyncStorage.removeObject(storageKey);
+                        var result = syncStorage.removeObject(storageKey);
                         threadResult.put(DELETE_OBJECT_RESULT_KEY, result);
                         downLatch.countDown();
                     })
@@ -133,7 +133,7 @@ public class MinioFutureStorage implements FutureStorage {
     @Override
     public Future<Boolean> deleteAllFuture(String exchange) {
         return executor.submit(() -> {
-            List<StorageKey> storageKeyList = minioSyncStorage.listExchange(exchange);
+            List<StorageKey> storageKeyList = syncStorage.listExchange(exchange);
             if (storageKeyList == null) {
                 return false;
             }

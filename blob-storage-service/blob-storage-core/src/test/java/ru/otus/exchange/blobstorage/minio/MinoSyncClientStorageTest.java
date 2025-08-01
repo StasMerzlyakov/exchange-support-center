@@ -1,22 +1,19 @@
 package ru.otus.exchange.blobstorage.minio;
 
+import static ru.otus.exchange.blobstorage.Utils.createStorageDataObject;
 import static ru.otus.exchange.blobstorage.minio.MinoSyncClientStorage.OBJECT_SHA256_DIGEST;
 import static ru.otus.exchange.blobstorage.minio.MinoSyncClientStorage.OBJECT_SIZE_TAG;
 
 import io.minio.GetObjectTagsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
-import java.nio.ByteBuffer;
 import java.time.Duration;
-import java.util.Random;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.MinIOContainer;
-import ru.otus.exchange.blobstorage.Metadata;
-import ru.otus.exchange.blobstorage.StorageData;
-import ru.otus.exchange.blobstorage.StorageKey;
+import ru.otus.exchange.blobstorage.*;
 
-class MinoSyncClientStorageWriteTest {
+class MinoSyncClientStorageTest {
 
     private static final String ACCESS_KEY = "accessKey";
     private static final String SECRET_KEY = "secretKey";
@@ -61,10 +58,10 @@ class MinoSyncClientStorageWriteTest {
 
         StorageKey storageKey = new StorageKey(exchange, key);
 
-        MinioSyncStorage syncClientStorage = new MinoSyncClientStorage(minioClient, minioConfig);
+        SyncStorage syncClientStorage = new MinoSyncClientStorage(minioClient, minioConfig);
 
         Assertions.assertDoesNotThrow(
-                () -> Assertions.assertTrue(syncClientStorage.writeObject(storageKey, storageData.byteBuffer())));
+                () -> Assertions.assertTrue(syncClientStorage.writeObject(storageKey, storageData)));
 
         String objectPath = String.join("/", exchange, key);
 
@@ -85,6 +82,10 @@ class MinoSyncClientStorageWriteTest {
             var metadata = syncClientStorage.readMetadata(storageKey);
             Assertions.assertEquals(storageData.metadata().size(), metadata.size());
             Assertions.assertEquals(storageData.metadata().sha256Digest(), metadata.sha256Digest());
+
+            var obj = syncClientStorage.readObject(storageKey);
+            Assertions.assertNotNull(obj);
+            Assertions.assertEquals(size, obj.remaining());
         });
 
         Assertions.assertDoesNotThrow(() -> {
@@ -100,20 +101,5 @@ class MinoSyncClientStorageWriteTest {
 
         var obj = syncClientStorage.readObject(storageKey);
         Assertions.assertNull(obj);
-    }
-
-    @SneakyThrows
-    private StorageData createStorageDataObject() {
-        int size = 2000;
-        byte[] byteArray = new byte[size];
-        Random random = new Random();
-        random.nextBytes(byteArray);
-
-        var byteBuffer = ByteBuffer.allocate(byteArray.length);
-        byteBuffer.put(byteArray);
-        byteBuffer.flip();
-        String sha256Digest = MinoSyncClientStorage.hexDigest(byteArray);
-
-        return new StorageData(new Metadata(size, sha256Digest), byteBuffer);
     }
 }

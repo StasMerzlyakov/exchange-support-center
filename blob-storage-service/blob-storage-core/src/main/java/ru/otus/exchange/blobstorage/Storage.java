@@ -1,6 +1,8 @@
 package ru.otus.exchange.blobstorage;
 
-import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.util.HexFormat;
+import lombok.SneakyThrows;
 import reactor.core.publisher.Mono;
 
 public interface Storage {
@@ -8,7 +10,7 @@ public interface Storage {
 
     // true - object created
     // false - same object already exists
-    Mono<Boolean> write(StorageKey storageKey, ByteBuffer byteBuffer);
+    Mono<Boolean> write(StorageKey storageKey, StorageData storageData);
 
     // true - delete success
     // false - no data found to delete
@@ -19,4 +21,13 @@ public interface Storage {
     Mono<Boolean> deleteAll(String exchange);
 
     Mono<Metadata> getMetadata(StorageKey storageKey);
+
+    @SneakyThrows
+    static String hexDigest(byte[] byteArray) {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] encodedHash = digest.digest(byteArray);
+
+        HexFormat hex = HexFormat.of();
+        return hex.formatHex(encodedHash);
+    }
 }

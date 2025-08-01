@@ -4,16 +4,13 @@ import com.fasterxml.jackson.databind.util.ByteBufferBackedInputStream;
 import io.minio.*;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import java.security.MessageDigest;
 import java.util.*;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import ru.otus.exchange.blobstorage.Metadata;
-import ru.otus.exchange.blobstorage.StorageKey;
+import ru.otus.exchange.blobstorage.*;
 
 @Slf4j
-public class MinoSyncClientStorage implements MinioSyncStorage {
+public class MinoSyncClientStorage implements SyncStorage {
 
     private final MinioClient minioClient;
 
@@ -52,21 +49,32 @@ public class MinoSyncClientStorage implements MinioSyncStorage {
     }
 
     @Override
-    public boolean writeObject(StorageKey storageKey, ByteBuffer byteBuffer) {
-        Map<String, String> metadata = new HashMap<>();
+    public boolean writeObject(StorageKey storageKey, StorageData storageData) {
 
         var objectPath = toObjectPath(storageKey);
 
-        var size = byteBuffer.remaining();
-        var sha256Digest = hexDigest(byteBuffer.array());
+        var byteBuffer = storageData.byteBuffer();
 
-        metadata.put(OBJECT_SIZE_TAG, String.valueOf(size));
-        metadata.put(OBJECT_SHA256_DIGEST, sha256Digest);
+        var size = byteBuffer.remaining();
+        var sha256Digest = Storage.hexDigest(byteBuffer.array());
+
+        var metadata = storageData.metadata();
+        if (size != metadata.size()) {
+            return false;
+        }
+
+        if (!sha256Digest.equals(metadata.sha256Digest())) {
+            return false;
+        }
+
+        Map<String, String> tags = new HashMap<>();
+        tags.put(OBJECT_SIZE_TAG, String.valueOf(size));
+        tags.put(OBJECT_SHA256_DIGEST, sha256Digest);
 
         try (var is = new ByteBufferBackedInputStream(byteBuffer)) {
             minioClient.putObject(
                     PutObjectArgs.builder().bucket(minioConfig.bucket()).object(objectPath).stream(is, size, -1)
-                            .tags(metadata)
+                            .tags(tags)
                             .build());
             return true;
         } catch (Exception e) {
@@ -110,6 +118,7 @@ public class MinoSyncClientStorage implements MinioSyncStorage {
                 byte[] bytes = IOUtils.toByteArray(stream);
                 byteBuffer = ByteBuffer.allocate(bytes.length);
                 byteBuffer.put(bytes);
+                byteBuffer.flip();
             }
             return byteBuffer;
         } catch (Exception e) {
@@ -156,15 +165,6 @@ public class MinoSyncClientStorage implements MinioSyncStorage {
     private StorageKey fromObjectPath(String objectPath) {
         var args = objectPath.split("/");
         return new StorageKey(args[0], args[1]);
-    }
-
-    @SneakyThrows
-    static String hexDigest(byte[] byteArray) {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] encodedHash = digest.digest(byteArray);
-
-        HexFormat hex = HexFormat.of();
-        return hex.formatHex(encodedHash);
     }
 
     static final String OBJECT_SIZE_TAG = "Size";

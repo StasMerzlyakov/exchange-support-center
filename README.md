@@ -95,12 +95,14 @@ SoftReference - внутренни кэш
 - работа GC (интересно сравнить работу с SoftReference и без)
 
 ### Используемые навыки:
-1. 15 - Java.util.concurrent. Atomics, ConcurrentHashMap, ConcurrentSkipListMap (MinioFutureStorage.java)
-2. 17 - Java.util.concurrent. CountDownLatch, Semaphore, Phaser (MinioFutureStorage.java)
-3. 21 - Java NIO (MinioFutureStorage.java;
+1. 4 -  Memory management. JVM memory structure  (GenericCache.java, MemorySyncStorage.java)
+2. 15 - Java.util.concurrent. Atomics, ConcurrentHashMap, ConcurrentSkipListMap (FutureStorage.java)
+3. 16 - Java.util.concurrent. Locks, ReadWriteLock, ReentrantLock (GenericCache.java)
+4. 17 - Java.util.concurrent. CountDownLatch, Semaphore, Phaser (FutureStorage.java)
+5. 21 - Java NIO (MinioFutureStorage.java;
    **Прим**. само использование ByteBuffer в данном случае соминтельно .. вот если бы был обмен через nio с S3-сервером.  
-   зато но уже сейчас вылез flip :)) )
-4. 22 - Реактивное программирование: Reactor (весь модуль)
+   зато но уже сейчас вылез flip :)) TODO )
+6. 22 - Реактивное программирование: Reactor (весь модуль)
 
 
 
