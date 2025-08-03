@@ -88,9 +88,11 @@ allprojects {
     configurations.all {
         resolutionStrategy {
             failOnVersionConflict()
-            force("io.micrometer:micrometer-observation:1.15.0")
-            force("io.micrometer:micrometer-core:1.15.0")
-            force("org.slf4j:slf4j-api:2.0.17")
+
+            force(rootProject.libs.micrometer.core)
+            force(rootProject.libs.micrometer.observation)
+
+            force(rootProject.libs.slf4j.api)
             force("com.google.guava:guava:32.1.3-jre")
 
             force("commons-io:commons-io:2.16.1")
@@ -104,14 +106,17 @@ allprojects {
             force("com.google.errorprone:error_prone_annotations:2.27.0")
             force("org.jetbrains:annotations:19.0.0")
 
-            force("io.projectreactor:reactor-core:3.7.6")
+            force(rootProject.libs.reactor.core)
+            force(rootProject.libs.spring.core)
+            force(rootProject.libs.spring.web)
             force("org.jboss.logging:jboss-logging:3.6.1.Final")
             force("com.fasterxml:classmate:1.7.0")
 
-            force("io.netty:netty-common:4.1.121.Final")
-            force("io.netty:netty-handler:4.1.121.Final")
-            force("io.netty:netty-transport:4.1.121.Final")
-            force("jakarta.xml.bind:jakarta.xml.bind-api:4.0.2")
+            force(rootProject.libs.netty.common)
+            force(rootProject.libs.netty.handler)
+            force(rootProject.libs.netty.transport)
+
+            force(rootProject.libs.jakarta.bind.api)
 
             force("org.projectlombok:lombok:1.18.38")
 
@@ -145,6 +150,25 @@ allprojects {
             force("javax.xml.bind:jaxb-api:2.3.0")
 
             force("org.junit:junit-bom:5.12.2")
+
+            force(rootProject.libs.netty.buffer)
+            force(rootProject.libs.netty.codec)
+            force(rootProject.libs.netty.transport.native.unix.common)
+            force(rootProject.libs.protobuf.java)
+            force(rootProject.libs.netty.resolver)
+            force(rootProject.libs.netty.handler.proxy)
+            force(rootProject.libs.netty.codec.http2)
+            force(rootProject.libs.netty.codec.http)
+            force(rootProject.libs.starter.validation)
+            force(rootProject.libs.starter.webflux)
+            force(rootProject.libs.spring.boot.starter)
+            force(rootProject.libs.spring.boot.properties.migrator)
+            force(rootProject.libs.spring.boot.configuration.processor)
+            force(rootProject.libs.zipkin.reporter)
+            force(rootProject.libs.zipkin.sender.okhttp3)
+            force(rootProject.libs.micrometer.commons)
+            force(rootProject.libs.spring.security.crypto)
+            force(rootProject.libs.proto.google)
         }
     }
 }
@@ -158,6 +182,7 @@ java {
 ext {
     val specDir = layout.projectDirectory.dir("./specs")
     set("openapi-spec-v1", specDir.file("openapi/blob-storage-api-v1.yaml").toString())
+    set("proto-spec-v1", specDir.file("proto/blob-storage-api-v1.proto").toString())
 }
 
 

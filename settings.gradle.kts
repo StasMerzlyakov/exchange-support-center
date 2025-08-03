@@ -31,3 +31,5 @@ include("blob-storage-service:blob-storage-core")
 findProject(":blob-storage-service:blob-storage-core")?.name = "blob-storage-core"
 include("blob-storage-service:blob-storage-spring")
 findProject(":blob-storage-service:blob-storage-spring")?.name = "blob-storage-spring"
+include("blob-storage-service:blob-storage-api-v1-grpc")
+findProject(":blob-storage-service:blob-storage-api-v1-grpc")?.name = "blob-storage-api-v1-grpc"

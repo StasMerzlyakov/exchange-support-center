@@ -4,8 +4,9 @@ spotless = "6.25.0"
 mijmh = "0.7.2"
 lombok-plugin = "8.14"
 project-lombok = "1.18.38"
-spring-boot-bom = "3.5.0"
-spring-boot = "3.5.0"
+spring-boot-bom = "3.5.3"
+spring-boot = "3.5.3"
+spring = "6.2.8"
 spring-cloud-bom = "2025.0.0"
 junit = "5.12.2"
 java-uuid-generator = "5.1.0"
@@ -15,6 +16,8 @@ redis-testcontainers = "1.6.4"
 slf4j-api = "2.0.17"
 slf4j-simple = "2.0.17"
 opentelemetry-instrumentation-bom = "2.15.0"
+protobufJava = "4.31.1"
+grpc = "1.72.0"
 
 jaxb-api = "2.3.0"
 jvnet-jaxb2-basics = "1.1.0"
@@ -32,7 +35,15 @@ annotation-api = "1.3.2"
 findbugs-jsr305 = "3.0.2"
 assertj-core = "3.27.3"
 mockito-core = "5.18.0"
-reactor-core = "3.7.6"
+reactor-core = "3.7.7"
+protobufPlugVer = "0.9.5"
+netty = "4.1.122.Final"
+spring-grpc = "0.9.0"
+zipkin = "3.5.1"
+micrometer = "1.15.1"
+spring-security-crypto = "6.5.1"
+proto-google  = "2.54.1"
+mapstruct = "1.6.0"
 
 [plugins]
 freefair-lombok = { id = "io.freefair.lombok", version.ref = "lombok-plugin" }
@@ -42,6 +53,9 @@ mijmh = { id = "me.champeau.jmh", version.ref = "mijmh" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 bjornvester-xjc = { id = "com.github.bjornvester.xjc", version.ref = "bjornvester-xjc" }
 openapi-generator = { id = "org.openapi.generator", version.ref = "openapi-generator" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugVer" }
+
+
 # BASE
 #jvm-compiler = "21"
 #jvm-language = "21"
@@ -55,18 +69,35 @@ spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-d
 jaxb-api = { module = "javax.xml.bind:jaxb-api", version.ref = "jaxb-api" }
 jvnet-jaxb2-basics = { module = "org.jvnet.jaxb2_commons:jaxb2-basics-annotate", version.ref = "jvnet-jaxb2-basics" }
 jakarta-bind-api = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version.ref = "jakarta-bind-api" }
-starter-webflux = { group = "org.springframework.boot", name = "spring-boot-starter-webflux" }
+starter-webflux = { group = "org.springframework.boot", name = "spring-boot-starter-webflux", version.ref = "spring-boot" }
 starter-redis-reactive = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis-reactive" }
 cloud-starter-webflux = { group = "org.springframework.cloud", name = "spring-cloud-starter-gateway-server-webflux" }
 starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
 starter-aop = { group = "org.springframework.boot", name = "spring-boot-starter-aop" }
-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
+starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation", version.ref = "spring-boot" }
+spring-web = { module = "org.springframework:spring-web", version.ref = "spring" }
+spring-core = { module = "org.springframework:spring-core", version.ref = "spring" }
+spring-context = { module = "org.springframework:spring-context", version.ref = "spring" }
+
+spring-boot-starter = { group = "org.springframework.boot", name = "spring-boot-starter", version.ref = "spring-boot" }
+spring-boot-configuration-processor = { module = "org.springframework.boot:spring-boot-configuration-processor", version.ref = "spring-boot" }
+spring-boot-properties-migrator = { module = "org.springframework.boot:spring-boot-properties-migrator", version.ref = "spring-boot" }
+spring-security-crypto = { module = "org.springframework.security:spring-security-crypto", version.ref = "spring-security-crypto" }
+zipkin-reporter = { module = "io.zipkin.reporter2:zipkin-reporter", version.ref = "zipkin" }
+zipkin-sender-okhttp3 = { module = "io.zipkin.reporter2:zipkin-sender-okhttp3", version.ref = "zipkin" }
+
+
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
 mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version.ref = "mockito-core" }
 junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 minio = { module = "io.minio:minio", version.ref = "minio" }
 micrometer-registry-prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
 micrometer-tracing-bridge-otel = { module = "io.micrometer:micrometer-tracing-bridge-otel" }
+micrometer-commons = { module = "io.micrometer:micrometer-commons", version.ref = "micrometer" }
+
+micrometer-observation = { module = "io.micrometer:micrometer-observation", version.ref = "micrometer" }
+micrometer-core = { module = "io.micrometer:micrometer-core", version.ref = "micrometer" }
+
 opentelemetry-exporter-zipkin = { module = "io.opentelemetry:opentelemetry-exporter-zipkin" }
 reactor-test = { module = "io.projectreactor:reactor-test", version.ref = "reactor-core" }
 reactor-core = { module = "io.projectreactor:reactor-core", version.ref = "reactor-core" }
@@ -85,6 +116,33 @@ murmur3 = { module = "com.github.eprst:murmur3", version.ref = "murmur3" }
 
 jaxb-runtime = { module = "org.glassfish.jaxb:jaxb-runtime", version.ref = "jaxb-runtime" }
 findbugs-jsr305 = { module = "com.google.code.findbugs:jsr305", version.ref = "findbugs-jsr305" }
+
+protoc-gen-grpc-java = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc" }
+protoc = { module = "com.google.protobuf:protoc", version.ref = "protobufJava" }
+
+proto-google = { module = "com.google.api.grpc:proto-google-common-protos", version.ref = "proto-google"}
+protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobufJava" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+
+grpc-netty = { module = "io.grpc:grpc-netty", version.ref = "grpc" }
+grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc" }
+grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
+
+netty-buffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
+netty-codec = { module = "io.netty:netty-codec", version.ref = "netty" }
+netty-handler-proxy = { module = "io.netty:netty-handler-proxy", version.ref = "netty" }
+netty-codec-http2 = { module = "io.netty:netty-codec-http2", version.ref = "netty" }
+netty-codec-http = { module = "io.netty:netty-codec-http", version.ref = "netty" }
+netty-common = { module = "io.netty:netty-common", version.ref = "netty" }
+netty-handler = { module = "io.netty:netty-handler", version.ref = "netty" }
+netty-transport = { module = "io.netty:netty-transport", version.ref = "netty" }
+
+
+netty-resolver = { module = "io.netty:netty-resolver", version.ref = "netty" }
+netty-transport-native-unix-common = { module = "io.netty:netty-transport-native-unix-common", version.ref = "netty" }
+starter-grpc = { module = "org.springframework.grpc:spring-grpc-spring-boot-starter", version.ref = "spring-grpc" }
+
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 jackson-bom = { module = "com.fasterxml.jackson:jackson-bom", version.ref = "jackson" }
 jackson-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }

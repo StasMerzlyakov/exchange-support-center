@@ -5,13 +5,16 @@ plugins {
 
 dependencies {
     implementation(projects.common)
+    implementation(projects.blobStorageService.blobStorageApiV1Grpc)
+    implementation(projects.blobStorageService.blobStorageApiV1Jackson)
+    implementation(projects.blobStorageService.blobStorageCore)
     implementation(platform(libs.spring.boot.dependencies))
 
     compileOnly(libs.project.lombok)
     annotationProcessor(libs.project.lombok)
 
     implementation(libs.starter.webflux)
-    implementation(libs.starter.redis.reactive)
+    implementation(libs.starter.grpc)
 
     implementation(libs.starter.actuator)
     implementation(libs.starter.aop)

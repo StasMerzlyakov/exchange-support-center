@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package ru.otus.exchange.api.grpc.v1;
+
+import "validate/validate.proto";
+
+service BlobStorageService {
+  rpc getObject(StorageKey) returns (StorageData);
+  rpc putObject(StorageData) returns (OpResult);
+  rpc removeObject(StorageKey) returns (OpResult);
+  rpc isExists(StorageKey) returns (OpResult);
+  rpc removeObjects(Exchange) returns (OpResult);
+}
+
+
+message OpResult {
+  bool result = 1;
+}
+
+message Exchange {
+  string exchange = 1;
+}
+
+message StorageKey {
+  string exchange = 1 [(validate.rules).string.min_len = 3];
+  string key = 2 [(validate.rules).string.min_len = 3];
+}
+
+message Metadata {
+  int32 size = 1;
+  string sha256Digest = 2;
+}
+
+message StorageData {
+  Metadata metadata = 1;
+  bytes data = 2;
+}
+

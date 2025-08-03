@@ -6,7 +6,7 @@ servers:
   - url: http://blob-storage/storage
     description: sample server url
 paths:
-  /api/v1.0/{key}:
+  /api/v1.0/{exchange}/{key}:
     get:
       tags:
         - blob-storage
@@ -14,7 +14,7 @@ paths:
       operationId: read
       parameters:
         - name: exchange
-          in: header
+          in: path
           required: true
           schema:
             type: string
@@ -69,7 +69,7 @@ paths:
       operationId: write
       parameters:
         - name: exchange
-          in: header
+          in: path
           required: true
           schema:
             type: string
@@ -128,7 +128,7 @@ paths:
       operationId: delete
       parameters:
         - name: exchange
-          in: header
+          in: path
           required: true
           schema:
             type: string
@@ -176,7 +176,7 @@ paths:
       operationId: isExist
       parameters:
         - name: exchange
-          in: header
+          in: path
           required: true
           schema:
             type: string
@@ -217,7 +217,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerError'
-  /api/v1.0/:
+  /api/v1.0/{exchange}:
     delete:
       tags:
         - blob-storage
@@ -225,7 +225,7 @@ paths:
       operationId: deleteAll
       parameters:
         - name: exchange
-          in: header
+          in: path
           required: true
           schema:
             type: string
