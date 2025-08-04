@@ -1,5 +1,5 @@
 services:
-  app:
+  gateway:
     image: gateway-service:1.0
     container_name: gateway
     hostname: gateway
@@ -7,7 +7,7 @@ services:
       - "8080:8080"
       - "7000:7000"
     networks:
-      - gateway-net
+      - exchange-net
     depends_on:
       - redis
       - receiver
@@ -18,7 +18,7 @@ services:
     container_name: redis
     hostname: redis
     networks:
-      - gateway-net
+      - exchange-net
 
   rclient:
     image: redis/redisinsight:latest
@@ -29,7 +29,7 @@ services:
     depends_on:
       - redis
     networks:
-      - gateway-net
+      - exchange-net
 
   zipkin:
     image: openzipkin/zipkin
@@ -38,8 +38,50 @@ services:
     ports:
       - "9411:9411"
     networks:
-      - gateway-net
+      - exchange-net
 
+  minio:
+    image: quay.io/minio/minio:RELEASE.2025-03-12T18-04-18Z
+    container_name: minio
+    hostname: minio
+    ports:
+      - "9900:9000"
+      - "9901:9001"
+    networks:
+      - exchange-net
+    volumes:
+      - ./minio/data:/data
+    environment:
+      MINIO_ROOT_USER: accessKey
+      MINIO_ROOT_PASSWORD: secretKey
+    command: [ "server", "--console-address", ":9001", "/data" ]
+  createbuckets:
+    image: quay.io/minio/mc:RELEASE.2025-03-12T17-29-24Z
+    depends_on:
+      - minio
+    restart: on-failure
+    networks:
+      - exchange-net
+    entrypoint: >
+      /bin/sh -c "
+      sleep 5;
+      /usr/bin/mc alias set dockerminio http://minio:9000 accessKey secretKey;
+      /usr/bin/mc mb dockerminio/bucket;
+      exit 0;
+      "
+
+  blobstorage:
+    image: blobstorage-service:1.0
+    container_name: blobstorage
+    hostname: gateway
+    ports:
+      - "9090:9090"
+      - "7001:7000"
+    networks:
+      - exchange-net
+    depends_on:
+      - minio
+      - zipkin
 
   receiver:
     image: boxboat/hello-world-webapp
@@ -50,10 +92,9 @@ services:
     environment:
       - PORT=8081
     networks:
-      - gateway-net
-
+      - exchange-net
 
 networks:
-  gateway-net:
+  exchange-net:
     driver: bridge
 

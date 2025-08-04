@@ -11,7 +11,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
-import ru.otus.exchange.blobstorage.minio.MinioConfig;
 
 class FutureStorageImplTest {
 
@@ -24,9 +23,7 @@ class FutureStorageImplTest {
 
         StorageData expectedStorageData = createObject();
 
-        MinioConfig minioConfig = new MinioConfig("", Duration.ofSeconds(5));
-
-        FutureStorageImpl futureStorage = new FutureStorageImpl(minioConfig, syncStorage);
+        FutureStorageImpl futureStorage = new FutureStorageImpl(Duration.ofSeconds(5), syncStorage);
 
         AtomicReference<StorageData> storageDataRef = new AtomicReference<>();
 
@@ -53,9 +50,7 @@ class FutureStorageImplTest {
 
         StorageData expectedStorageData = createObject();
 
-        MinioConfig minioConfig = new MinioConfig("", Duration.ofSeconds(5));
-
-        FutureStorageImpl futureStorage = new FutureStorageImpl(minioConfig, syncStorage);
+        FutureStorageImpl futureStorage = new FutureStorageImpl(Duration.ofSeconds(5), syncStorage);
         when(syncStorage.writeObject(storageKey, expectedStorageData)).thenReturn(true);
 
         AtomicReference<Boolean> resultRef = new AtomicReference<>();
@@ -73,9 +68,7 @@ class FutureStorageImplTest {
 
         StorageKey storageKey = new StorageKey("exchange", "key");
 
-        MinioConfig minioConfig = new MinioConfig("", Duration.ofSeconds(5));
-
-        FutureStorageImpl futureStorage = new FutureStorageImpl(minioConfig, syncStorage);
+        FutureStorageImpl futureStorage = new FutureStorageImpl(Duration.ofSeconds(5), syncStorage);
 
         List<StorageKey> storageKeyList = new ArrayList<>();
         storageKeyList.add(storageKey);

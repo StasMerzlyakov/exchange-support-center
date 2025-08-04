@@ -16,11 +16,18 @@ pwd=`pwd`
 #fi
 
 # gateway-servive
-pushd ../gateway-service
-../gradlew clean bootJar
-cp build/libs/gateway-service.jar ../${pwd}/build/
-popd
-docker build ./ -f Dockerfile.gateway -t gateway-service:1.0
+#pushd ../gateway-service
+#../gradlew clean bootJar
+#cp build/libs/gateway-service.jar ../${pwd}/build/
+#popd
+#docker build ./ -f Dockerfile.gateway -t gateway-service:1.0
 
+
+# blobstorage
+pushd ../blob-storage-service/blob-storage-spring/
+../../gradlew clean bootJar
+cp build/libs/blob-storage-spring.jar ${pwd}/build/
+popd
+docker build ./ -f Dockerfile.blobstorage -t blobstorage-service:1.0
 
 

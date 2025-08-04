@@ -45,11 +45,6 @@ allprojects {
 
     apply<SonarLintPlugin>()
     configure<SonarLintExtension> {
-
-        nodeJs {
-            detectNodeJs.set(false)
-            logNodeJsNotFound.set(false)
-        }
     }
 
 
@@ -79,6 +74,7 @@ allprojects {
     }
 
     dependencies {
+        compileOnly(rootProject.libs.spring.context) // sonarlint required org.springframework.core.NestedIOException
         testImplementation(platform(rootProject.libs.junit.bom))
         testImplementation(platform(rootProject.libs.testcontainers.bom))
         testImplementation(rootProject.libs.junit.jupiter)
@@ -89,43 +85,40 @@ allprojects {
         resolutionStrategy {
             failOnVersionConflict()
 
-            //   force(rootProject.libs.micrometer.core)
-            // force(rootProject.libs.micrometer.observation)
-
             force(rootProject.libs.slf4j.api)
             force(rootProject.libs.guava)
-
-            force("commons-io:commons-io:2.16.1")
-            force("org.eclipse.jgit:org.eclipse.jgit:6.9.0.202403050737-r")
-            force("org.apache.commons:commons-compress:1.26.1")
-            force("commons-codec:commons-codec:1.16.1")
-            force("org.apache.commons:commons-lang3:3.14.0")
-            force("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
-            force("com.google.code.gson:gson:2.11.0")
-            force("org.jetbrains.kotlin:kotlin-stdlib-common:1.6.10")
-            force("com.google.errorprone:error_prone_annotations:2.27.0")
-            force("org.jetbrains:annotations:19.0.0")
-
-            force("org.jboss.logging:jboss-logging:3.6.1.Final")
-            force("com.fasterxml:classmate:1.7.0")
-
             force(rootProject.libs.jakarta.bind.api)
-
             force(rootProject.libs.project.lombok)
-
-            force("org.hamcrest:hamcrest:3.0")
-            force("net.bytebuddy:byte-buddy:1.17.5")
-            force("net.bytebuddy:byte-buddy-agent:1.17.5")
-
-            force("org.junit.jupiter:junit-jupiter-api:5.12.2")
-            force("net.minidev:json-smart:2.5.2")
-
-            force("org.apache.httpcomponents.client5:httpclient5:5.4.4")
             force(rootProject.libs.awaitility)
 
+            force(rootProject.libs.hamcrest)
+            force(rootProject.libs.hamcrest.core)
+            force(rootProject.libs.byte.buddy)
+            force(rootProject.libs.byte.buddy.agent)
 
-            force("org.testcontainers:testcontainers:1.21.0")
-            force("org.hamcrest:hamcrest-core:3.0")
+            force(rootProject.libs.junit.jupiter.api)
+
+            force(rootProject.libs.commons.io)
+            force(rootProject.libs.jgit)
+            force(rootProject.libs.commons.compress)
+
+            force(rootProject.libs.json.smart)
+
+            force(rootProject.libs.commons.codec)
+
+            force(rootProject.libs.gson)
+            force(rootProject.libs.error.prone.annotations)
+
+            force(rootProject.libs.commons.lang3)
+            force(rootProject.libs.annotations)
+
+            force(rootProject.libs.testcontainers)
+
+            force(rootProject.libs.httpclient5)
+            force(rootProject.libs.jboss.logging)
+            force(rootProject.libs.classmate)
+
+            force(rootProject.libs.httpcore5)
 
             force(rootProject.libs.jackson.databind)
             force(rootProject.libs.jackson.annotations)
@@ -133,16 +126,14 @@ allprojects {
             force(rootProject.libs.jackson.bom)
             force(rootProject.libs.jackson.datatype.guava)
 
-            force(rootProject.libs.jackson.datatype.jdk8 )
+            force(rootProject.libs.jackson.datatype.jdk8)
             force(rootProject.libs.jackson.jsr310)
             force(rootProject.libs.jackson.module.parameter.names)
 
-            force("org.apache.httpcomponents.core5:httpcore5:5.3.4")
-
             force(rootProject.libs.kotlin.stdlib.jdk8)
+            force(rootProject.libs.kotlin.stdlib.common)
 
             force(rootProject.libs.jaxb.api)
-
             force(rootProject.libs.junit.bom)
 
             force(rootProject.libs.reactor.core)

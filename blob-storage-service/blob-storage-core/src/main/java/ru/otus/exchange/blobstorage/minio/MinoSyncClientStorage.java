@@ -2,6 +2,7 @@ package ru.otus.exchange.blobstorage.minio;
 
 import com.fasterxml.jackson.databind.util.ByteBufferBackedInputStream;
 import io.minio.*;
+import io.minio.errors.ErrorResponseException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.*;
@@ -100,10 +101,14 @@ public class MinoSyncClientStorage implements SyncStorage {
                 metadata = new Metadata(size, sha256Digest);
             }
             return metadata;
+        } catch (ErrorResponseException re) {
+            if (!NO_SUCH_KEY.equals(re.errorResponse().code())) {
+                log.error("minio readMetadata error", re);
+            }
         } catch (Exception e) {
             log.error("readMetadata error", e);
-            return null;
         }
+        return null;
     }
 
     @Override
@@ -121,6 +126,10 @@ public class MinoSyncClientStorage implements SyncStorage {
                 byteBuffer.flip();
             }
             return byteBuffer;
+        } catch (ErrorResponseException re) {
+            if (!NO_SUCH_KEY.equals(re.errorResponse().code())) {
+                log.error("minio readObject error", re);
+            }
         } catch (Exception e) {
             log.error("readObject error", e);
         }
@@ -137,10 +146,14 @@ public class MinoSyncClientStorage implements SyncStorage {
                     .object(objectPath)
                     .build());
             return true;
+        } catch (ErrorResponseException re) {
+            if (!NO_SUCH_KEY.equals(re.errorResponse().code())) {
+                log.error("minio removeObject error", re);
+            }
         } catch (Exception e) {
             log.error("removeObject error", e);
-            return false;
         }
+        return false;
     }
 
     @Override
@@ -152,10 +165,14 @@ public class MinoSyncClientStorage implements SyncStorage {
                     .object(objectPath)
                     .build());
             return true;
+        } catch (ErrorResponseException re) {
+            if (!NO_SUCH_KEY.equals(re.errorResponse().code())) {
+                log.error("minio removeMetadata error", re);
+            }
         } catch (Exception e) {
             log.error("removeMetadata error", e);
-            return false;
         }
+        return false;
     }
 
     private String toObjectPath(StorageKey storageKey) {
@@ -169,4 +186,6 @@ public class MinoSyncClientStorage implements SyncStorage {
 
     static final String OBJECT_SIZE_TAG = "Size";
     static final String OBJECT_SHA256_DIGEST = "Digest";
+
+    static final String NO_SUCH_KEY = "NoSuchKey";
 }

@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-
     compileOnly(libs.project.lombok)
     annotationProcessor(libs.project.lombok)
     implementation(libs.murmur3)

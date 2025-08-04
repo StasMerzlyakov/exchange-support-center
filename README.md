@@ -95,14 +95,15 @@ SoftReference - внутренни кэш
 - работа GC (интересно сравнить работу с SoftReference и без)
 
 ### Используемые навыки:
-1. 4 -  Memory management. JVM memory structure  (GenericCache.java, MemorySyncStorage.java)
-2. 15 - Java.util.concurrent. Atomics, ConcurrentHashMap, ConcurrentSkipListMap (FutureStorage.java)
-3. 16 - Java.util.concurrent. Locks, ReadWriteLock, ReentrantLock (GenericCache.java)
-4. 17 - Java.util.concurrent. CountDownLatch, Semaphore, Phaser (FutureStorage.java)
-5. 21 - Java NIO (MinioFutureStorage.java;
-   **Прим**. само использование ByteBuffer в данном случае соминтельно .. вот если бы был обмен через nio с S3-сервером.  
-   зато но уже сейчас вылез flip :)) TODO )
-6. 22 - Реактивное программирование: Reactor (весь модуль)
+1. 3 - Java Instrumentation & Java agent [006-reactor-blockhound](docs/adr/006-reactor-blockhound.md)
+2. 4 -  Memory management. JVM memory structure  (GenericCache.java, MemorySyncStorage.java)
+3. 15 - Java.util.concurrent. Atomics, ConcurrentHashMap, ConcurrentSkipListMap (FutureStorage.java)
+4. 16 - Java.util.concurrent. Locks, ReadWriteLock, ReentrantLock (GenericCache.java)
+5. 17 - Java.util.concurrent. CountDownLatch, Semaphore, Phaser (FutureStorage.java)
+6. 21 - Java NIO (работаю с ByteBuffer; под капотом netty; docs/adr/005-objects-in-memory.md; 
+   **Прим**. само использование ByteBuffer для обемна с S3 соминтельно, так как обмен синхронный, зато но уже вылез flip)
+7. 22 - Реактивное программирование: Reactor (весь модуль)
+8. 34 - Protobuf, gRPC
 
 
 

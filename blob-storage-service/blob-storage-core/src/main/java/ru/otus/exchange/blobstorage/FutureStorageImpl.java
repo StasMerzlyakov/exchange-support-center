@@ -1,11 +1,11 @@
 package ru.otus.exchange.blobstorage;
 
 import java.nio.ByteBuffer;
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import lombok.extern.slf4j.Slf4j;
-import ru.otus.exchange.blobstorage.minio.MinioConfig;
 
 @Slf4j
 public class FutureStorageImpl implements FutureStorage {
@@ -14,12 +14,12 @@ public class FutureStorageImpl implements FutureStorage {
 
     private final ExecutorService executor;
 
-    private final long waitSecond;
+    private final Duration waitTimeout;
 
-    public FutureStorageImpl(MinioConfig minioConfig, SyncStorage syncStorage) {
+    public FutureStorageImpl(Duration waitTimeout, SyncStorage syncStorage) {
         this.syncStorage = syncStorage;
         this.executor = Executors.newCachedThreadPool();
-        this.waitSecond = minioConfig.opTimeout().getSeconds();
+        this.waitTimeout = waitTimeout;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class FutureStorageImpl implements FutureStorage {
                     })
                     .start();
 
-            if (!downLatch.await(waitSecond, TimeUnit.SECONDS)) {
+            if (!downLatch.await(waitTimeout.getSeconds(), TimeUnit.SECONDS)) {
                 return null;
             }
 
@@ -75,10 +75,12 @@ public class FutureStorageImpl implements FutureStorage {
                     })
                     .start();
 
-            if (!downLatch.await(waitSecond, TimeUnit.SECONDS)) {
+            if (!downLatch.await(waitTimeout.getSeconds(), TimeUnit.SECONDS)) {
                 return null;
             }
-            return (Metadata) threadResult.get(META_KEY);
+            var result = (Metadata) threadResult.get(META_KEY);
+            log.info("readMetadata by key result {} ", result != null);
+            return result;
         });
     }
 
@@ -95,7 +97,7 @@ public class FutureStorageImpl implements FutureStorage {
                     })
                     .start();
 
-            if (!downLatch.await(waitSecond, TimeUnit.SECONDS)) {
+            if (!downLatch.await(waitTimeout.getSeconds(), TimeUnit.SECONDS)) {
                 return null;
             }
             return threadResult.get(WRITE_RESULT_KEY);
@@ -122,7 +124,7 @@ public class FutureStorageImpl implements FutureStorage {
                     })
                     .start();
 
-            if (!downLatch.await(waitSecond, TimeUnit.SECONDS)) {
+            if (!downLatch.await(waitTimeout.getSeconds(), TimeUnit.SECONDS)) {
                 return null;
             }
 
@@ -155,7 +157,7 @@ public class FutureStorageImpl implements FutureStorage {
                     })
                     .start());
 
-            if (!downLatch.await(waitSecond, TimeUnit.SECONDS)) {
+            if (!downLatch.await(waitTimeout.getSeconds(), TimeUnit.SECONDS)) {
                 return false;
             }
             return allFuturesResult.get();

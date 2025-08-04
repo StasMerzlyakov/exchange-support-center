@@ -1,5 +1,6 @@
 package ru.otus.exchange.blobstorage;
 
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
@@ -40,9 +41,20 @@ public class ChainStorage implements Storage {
     @Override
     public Mono<Metadata> getMetadata(StorageKey storageKey) {
         return current.getMetadata(storageKey)
-                .switchIfEmpty(Mono.defer(() -> next.read(storageKey)
-                        .doOnNext(storageData -> current.write(storageKey, storageData))
-                        .map(StorageData::metadata)))
-                .doOnError(Mono::error);
+                .switchIfEmpty(Mono.defer(() -> next.read(storageKey))
+                        .filter(Objects::nonNull)
+                        .flatMap(storageData -> {
+                            log.info("store object to cache");
+                            return current.write(storageKey, storageData);
+                        })
+                        .flatMap(result -> {
+                            log.info("restore object result: {}", result);
+                            if (Boolean.TRUE.equals(result)) {
+                                return current.getMetadata(storageKey);
+                            }
+                            return null;
+                        })
+                        .switchIfEmpty(Mono.empty()))
+                .doOnSuccess(metadata -> log.info("getMetadata by key result {} : {} ", storageKey, metadata != null));
     }
 }

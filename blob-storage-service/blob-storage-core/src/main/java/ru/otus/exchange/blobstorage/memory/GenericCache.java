@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import ru.otus.exchange.blobstorage.exceptions.OverrideForbiddenException;
 
 public class GenericCache<K, V> implements MemoryCache<K, V> {
 
@@ -35,6 +36,12 @@ public class GenericCache<K, V> implements MemoryCache<K, V> {
         wLock.lock();
         try {
             var valueRef = new ValueReference<>(key, value, referenceQueue);
+            if (map.containsKey(key)) {
+                var ref = map.get(key);
+                if (ref.get() != null) {
+                    throw new OverrideForbiddenException("object already exists");
+                }
+            }
             map.put(key, valueRef);
             callbackFn.invoke(key);
         } finally {

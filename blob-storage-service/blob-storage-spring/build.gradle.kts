@@ -15,11 +15,14 @@ dependencies {
     annotationProcessor(libs.project.lombok)
 
     implementation(libs.spring.boot.starter.webflux)
-    implementation(libs.starter.grpc)
+    implementation(libs.spring.starter.grpc)
+    implementation(libs.mapstruct)
+    annotationProcessor(libs.mapstruct.processor)
 
     implementation(libs.starter.actuator)
     implementation(libs.starter.aop)
     implementation(libs.minio)
+    implementation(libs.blockhound)
 
     testImplementation(libs.junit.jupiter)
 }
