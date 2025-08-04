@@ -7,13 +7,14 @@ dependencies {
     implementation(projects.common)
     implementation(projects.blobStorageService.blobStorageApiV1Grpc)
     implementation(projects.blobStorageService.blobStorageApiV1Jackson)
+    implementation(projects.blobStorageService.blobStorageApiCommon)
     implementation(projects.blobStorageService.blobStorageCore)
     implementation(platform(libs.spring.boot.dependencies))
 
     compileOnly(libs.project.lombok)
     annotationProcessor(libs.project.lombok)
 
-    implementation(libs.starter.webflux)
+    implementation(libs.spring.boot.starter.webflux)
     implementation(libs.starter.grpc)
 
     implementation(libs.starter.actuator)

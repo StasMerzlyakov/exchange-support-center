@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.blobStorageService.blobStorageApiCommon)
     compileOnly(libs.project.lombok)
     annotationProcessor(libs.project.lombok)
     implementation(libs.slf4j.api)

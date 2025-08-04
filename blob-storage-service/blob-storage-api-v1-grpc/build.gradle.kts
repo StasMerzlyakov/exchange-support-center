@@ -1,6 +1,7 @@
 import com.google.protobuf.gradle.id
 
 plugins {
+    alias(libs.plugins.spotless)
     alias(libs.plugins.protobuf)
 }
 
@@ -15,12 +16,12 @@ sourceSets {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:4.31.1"
+        artifact = "com.google.protobuf:protoc:4.30.2" // TODO toml libs.protoc
     }
 
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.73.0"
+            artifact = "io.grpc:protoc-gen-grpc-java:1.73.0" // TODO toml libs.protoc.gen.grpc.java
         }
     }
 
@@ -41,7 +42,7 @@ protobuf {
 }
 
 dependencies {
-   // implementation(projects.blobStorageService.blobStorageCore)
+    implementation(projects.blobStorageService.blobStorageApiCommon)
     implementation(libs.annotation.api)
     implementation(libs.protoc)
     implementation(libs.grpc.netty)

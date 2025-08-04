@@ -11,13 +11,13 @@ dependencies {
     compileOnly(libs.project.lombok)
     annotationProcessor(libs.project.lombok)
 
-    implementation(libs.cloud.starter.webflux)
-    implementation(libs.starter.webflux)
-    implementation(libs.starter.redis.reactive)
+    implementation(libs.spring.cloud.starter.gateway.server.webflux)
+    implementation(libs.spring.boot.starter.webflux)
+    implementation(libs.spring.boot.starter.data.redis.reactive)
 
     implementation(libs.starter.actuator)
     implementation(libs.starter.aop)
-    implementation(libs.starter.validation)
+    implementation(libs.spring.boot.starter.validation)
 
     implementation(libs.java.uuid.generator)
 

@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.spotless)
     alias(libs.plugins.openapi.generator)
 }
 

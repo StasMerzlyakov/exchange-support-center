@@ -1,8 +1,6 @@
 syntax = "proto3";
 
-package ru.otus.exchange.api.grpc.v1;
-
-import "validate/validate.proto";
+package ru.otus.exchange.blobstorage.api.grpc.v1;
 
 service BlobStorageService {
   rpc getObject(StorageKey) returns (StorageData);
@@ -22,8 +20,8 @@ message Exchange {
 }
 
 message StorageKey {
-  string exchange = 1 [(validate.rules).string.min_len = 3];
-  string key = 2 [(validate.rules).string.min_len = 3];
+  string exchange = 1;
+  string key = 2;
 }
 
 message Metadata {
