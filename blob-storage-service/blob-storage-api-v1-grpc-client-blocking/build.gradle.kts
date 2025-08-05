@@ -10,7 +10,6 @@ sourceSets {
     main {
         java {
             srcDirs("build/generated/source/proto/main/grpc")
-            srcDirs("build/generated/source/proto/main/reactor")
             srcDirs("build/generated/source/proto/main/java")
         }
     }
@@ -25,16 +24,11 @@ protobuf {
         id("grpc") {
             artifact = "io.grpc:protoc-gen-grpc-java:1.73.0" // TODO toml libs.protoc.gen.grpc.java
         }
-
-        id("reactor") {
-            artifact = "com.salesforce.servicelibs:reactor-grpc:1.2.4" // TODO toml libs.reactor.grpc
-        }
     }
 
     generateProtoTasks {
         all().forEach { task ->
             task.plugins {
-                create("reactor")
                 create("grpc")
             }
         }
@@ -54,8 +48,6 @@ dependencies {
     implementation(projects.blobStorageService.blobStorageApiCommon)
     implementation(libs.annotation.api)
     implementation(libs.protobuf.protoc)
-    implementation(libs.reactor.grpc)
-    implementation(libs.reactor.grpc.stubs)
     implementation(libs.grpc.netty)
     implementation(libs.grpc.protobuf)
     implementation(libs.protobuf.java)

@@ -20,14 +20,18 @@ public class GRPCBlobStorageService extends ReactorBlobStorageServiceGrpc.BlobSt
 
     @Override
     public Mono<BlobStorageApiV1.StorageData> getObject(Mono<BlobStorageApiV1.StorageKey> request) {
-        return request.map(mapper::map).flatMap(storage::read).map(mapper::map);
+        return request.map(mapper::map)
+                .flatMap(storage::read).map(mapper::map)
+                .switchIfEmpty(Mono.just(BlobStorageApiV1.StorageData.newBuilder().build()));
     }
 
     @Override
     public Mono<BlobStorageApiV1.OpResult> putObject(Mono<BlobStorageApiV1.PutObjectReq> request) {
         return request.flatMap(putObjectReq -> {
                     var storageData = mapper.map(putObjectReq.getStorageData());
+                    log.info("storageData.metadata {}", storageData.metadata());
                     var storageKey = mapper.map(putObjectReq.getStorageKey());
+                    log.info("storageKey {}", storageKey);
                     return storage.write(storageKey, storageData);
                 })
                 .map(mapper::map);
@@ -39,11 +43,11 @@ public class GRPCBlobStorageService extends ReactorBlobStorageServiceGrpc.BlobSt
     }
 
     @Override
-    public Mono<BlobStorageApiV1.OpResult> isExists(Mono<BlobStorageApiV1.StorageKey> request) {
+    public Mono<BlobStorageApiV1.Metadata> getMetadata(Mono<BlobStorageApiV1.StorageKey> request) {
         return request.map(mapper::map)
                 .flatMap(storage::getMetadata)
-                .hasElement()
-                .map(mapper::map);
+                .map(mapper::map)
+                .switchIfEmpty(Mono.just(BlobStorageApiV1.Metadata.newBuilder().build()));
     }
 
     @Override

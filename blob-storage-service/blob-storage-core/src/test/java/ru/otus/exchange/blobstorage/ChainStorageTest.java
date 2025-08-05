@@ -18,7 +18,7 @@ import reactor.test.StepVerifier;
 import ru.otus.exchange.blobstorage.exceptions.RedisException;
 
 @ExtendWith(MockitoExtension.class)
-class ChainStorageReadOperationTest {
+class ChainStorageTest {
 
     @SneakyThrows
     @Test

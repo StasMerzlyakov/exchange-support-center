@@ -35,3 +35,5 @@ include("blob-storage-service:blob-storage-api-v1-grpc")
 findProject(":blob-storage-service:blob-storage-api-v1-grpc")?.name = "blob-storage-api-v1-grpc"
 include("blob-storage-service:blob-storage-api-common")
 findProject(":blob-storage-service:blob-storage-api-common")?.name = "blob-storage-api-common"
+include("blob-storage-service:blob-storage-api-v1-grpc-client-blocking")
+findProject(":blob-storage-service:blob-storage-api-v1-grpc-client-blocking")?.name = "blob-storage-api-v1-grpc-client-blocking"

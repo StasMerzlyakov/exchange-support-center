@@ -12,7 +12,7 @@ class BlobStorageMapperTest {
     void test1() {
         BlobStorageMapper mapper = Mappers.getMapper(BlobStorageMapper.class);
 
-        StorageData storageData = Utils.createStorageDataObject();
+        StorageData storageData = TestUtils.createStorageDataObject();
 
         var grpcStorageData = mapper.map(storageData);
 
@@ -34,7 +34,7 @@ class BlobStorageMapperTest {
     void test2() {
         BlobStorageMapper mapper = Mappers.getMapper(BlobStorageMapper.class);
 
-        Metadata metadata = Utils.createMetadata();
+        Metadata metadata = TestUtils.createMetadata();
         var grpcMetadata = mapper.map(metadata);
 
         Assertions.assertNotNull(grpcMetadata);

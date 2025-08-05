@@ -150,7 +150,7 @@ grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
 reactor-grpc = { module = "com.salesforce.servicelibs:reactor-grpc", version.ref = "reactor-grpc" }
 reactor-grpc-stubs = { module = "com.salesforce.servicelibs:reactor-grpc-stub", version.ref = "reactor-grpc" }
 
-protoc = { module = "com.google.protobuf:protoc", version.ref = "protobufJava" }
+protobuf-protoc = { module = "com.google.protobuf:protoc", version.ref = "protobufJava" }
 
 proto-google = { module = "com.google.api.grpc:proto-google-common-protos", version.ref = "proto-google" }
 protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobufJava" }

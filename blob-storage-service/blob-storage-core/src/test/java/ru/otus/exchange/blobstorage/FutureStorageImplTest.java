@@ -17,11 +17,11 @@ class FutureStorageImplTest {
     @Test
     @DisplayName("read data")
     void test1() {
-        SyncStorage syncStorage = Mockito.mock(SyncStorage.class);
+        InternalSyncStorage syncStorage = Mockito.mock(InternalSyncStorage.class);
 
         StorageKey storageKey = new StorageKey("exchange", "key");
 
-        StorageData expectedStorageData = createObject();
+        StorageData expectedStorageData = TestUtils.createObject();
 
         FutureStorageImpl futureStorage = new FutureStorageImpl(Duration.ofSeconds(5), syncStorage);
 
@@ -44,11 +44,11 @@ class FutureStorageImplTest {
     @Test
     @DisplayName("write data")
     void test2() {
-        SyncStorage syncStorage = Mockito.mock(SyncStorage.class);
+        InternalSyncStorage syncStorage = Mockito.mock(InternalSyncStorage.class);
 
         StorageKey storageKey = new StorageKey("exchange", "key");
 
-        StorageData expectedStorageData = createObject();
+        StorageData expectedStorageData = TestUtils.createObject();
 
         FutureStorageImpl futureStorage = new FutureStorageImpl(Duration.ofSeconds(5), syncStorage);
         when(syncStorage.writeObject(storageKey, expectedStorageData)).thenReturn(true);
@@ -64,7 +64,7 @@ class FutureStorageImplTest {
     @Test
     @DisplayName("delete data")
     void test3() {
-        SyncStorage syncStorage = Mockito.mock(SyncStorage.class);
+        InternalSyncStorage syncStorage = Mockito.mock(InternalSyncStorage.class);
 
         StorageKey storageKey = new StorageKey("exchange", "key");
 
@@ -86,17 +86,5 @@ class FutureStorageImplTest {
         verify(syncStorage, times(1)).listExchange(storageKey.exchange());
         verify(syncStorage, times(2)).removeMetadata(storageKey);
         verify(syncStorage, times(2)).removeObject(storageKey);
-    }
-
-    @SneakyThrows
-    private StorageData createObject() {
-        int size = 2000;
-        byte[] byteArray = new byte[size];
-        Random random = new Random();
-        random.nextBytes(byteArray);
-
-        String sha256Digest = Storage.hexDigest(byteArray);
-
-        return new StorageData(new Metadata(size, sha256Digest), ByteBuffer.wrap(byteArray));
     }
 }

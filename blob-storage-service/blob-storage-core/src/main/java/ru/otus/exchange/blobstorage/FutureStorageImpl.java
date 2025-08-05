@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FutureStorageImpl implements FutureStorage {
 
-    private final SyncStorage syncStorage;
+    private final InternalSyncStorage syncStorage;
 
     private final ExecutorService executor;
 
     private final Duration waitTimeout;
 
-    public FutureStorageImpl(Duration waitTimeout, SyncStorage syncStorage) {
+    public FutureStorageImpl(Duration waitTimeout, InternalSyncStorage syncStorage) {
         this.syncStorage = syncStorage;
         this.executor = Executors.newCachedThreadPool();
         this.waitTimeout = waitTimeout;
@@ -64,6 +64,8 @@ public class FutureStorageImpl implements FutureStorage {
     @Override
     public Future<Metadata> readMetadataFuture(StorageKey storageKey) {
         return executor.submit(() -> {
+            log.info("readMetadata by key {} start", storageKey);
+
             CountDownLatch downLatch = new CountDownLatch(1);
             Map<String, Object> threadResult = new ConcurrentHashMap<>();
             new Thread(() -> {
@@ -79,7 +81,7 @@ public class FutureStorageImpl implements FutureStorage {
                 return null;
             }
             var result = (Metadata) threadResult.get(META_KEY);
-            log.info("readMetadata by key result {} ", result != null);
+            log.info("readMetadata by key {} result {} ", storageKey, result != null);
             return result;
         });
     }

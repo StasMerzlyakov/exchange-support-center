@@ -1,8 +1,5 @@
 package ru.otus.exchange.blobstorage;
 
-import java.security.MessageDigest;
-import java.util.HexFormat;
-import lombok.SneakyThrows;
 import reactor.core.publisher.Mono;
 
 public interface Storage {
@@ -21,13 +18,4 @@ public interface Storage {
     Mono<Boolean> deleteAll(String exchange);
 
     Mono<Metadata> getMetadata(StorageKey storageKey);
-
-    @SneakyThrows
-    static String hexDigest(byte[] byteArray) {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] encodedHash = digest.digest(byteArray);
-
-        HexFormat hex = HexFormat.of();
-        return hex.formatHex(encodedHash);
-    }
 }

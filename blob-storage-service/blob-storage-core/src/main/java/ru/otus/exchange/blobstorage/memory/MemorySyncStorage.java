@@ -4,12 +4,15 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import lombok.extern.slf4j.Slf4j;
 import ru.otus.exchange.blobstorage.Metadata;
 import ru.otus.exchange.blobstorage.StorageData;
 import ru.otus.exchange.blobstorage.StorageKey;
-import ru.otus.exchange.blobstorage.SyncStorage;
+import ru.otus.exchange.blobstorage.InternalSyncStorage;
 
-public class MemorySyncStorage implements SyncStorage {
+@Slf4j
+public class MemorySyncStorage implements InternalSyncStorage {
 
     private final Map<StorageKey, Metadata> metadataMap = new ConcurrentHashMap<>();
 
@@ -45,6 +48,7 @@ public class MemorySyncStorage implements SyncStorage {
     @Override
     public boolean removeObject(StorageKey storageKey) {
         bufferCache.remove(storageKey, metadataMap::remove);
+        log.info("removeObject {}", storageKey);
         return true;
     }
 

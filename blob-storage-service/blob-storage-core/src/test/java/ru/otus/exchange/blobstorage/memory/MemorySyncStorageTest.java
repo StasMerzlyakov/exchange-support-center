@@ -1,13 +1,13 @@
 package ru.otus.exchange.blobstorage.memory;
 
-import static ru.otus.exchange.blobstorage.Utils.createStorageDataObject;
+import static ru.otus.exchange.blobstorage.TestUtils.createObject;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.otus.exchange.blobstorage.StorageData;
 import ru.otus.exchange.blobstorage.StorageKey;
-import ru.otus.exchange.blobstorage.SyncStorage;
+import ru.otus.exchange.blobstorage.InternalSyncStorage;
 import ru.otus.exchange.blobstorage.memory.bytearray.ByteArrayCache;
 import ru.otus.exchange.blobstorage.memory.bytearray.ByteArrayCacheBufferCacheAdapter;
 
@@ -18,14 +18,14 @@ class MemorySyncStorageTest {
     void test1() {
         String exchange = "exchange";
         String key = "key";
-        StorageData expectedStorageData = createStorageDataObject();
+        StorageData expectedStorageData = createObject();
 
         StorageKey storageKey = new StorageKey(exchange, key);
 
         var byteArrayCache = new ByteArrayCache();
         var byteArrayCacheAdapter = new ByteArrayCacheBufferCacheAdapter(byteArrayCache);
 
-        SyncStorage syncStorage = new MemorySyncStorage(byteArrayCacheAdapter);
+        InternalSyncStorage syncStorage = new MemorySyncStorage(byteArrayCacheAdapter);
 
         Assertions.assertDoesNotThrow(
                 () -> Assertions.assertTrue(syncStorage.writeObject(storageKey, expectedStorageData)));

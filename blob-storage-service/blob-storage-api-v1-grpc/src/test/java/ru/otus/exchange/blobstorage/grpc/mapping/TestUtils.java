@@ -4,11 +4,11 @@ import java.nio.ByteBuffer;
 import java.util.Random;
 import lombok.SneakyThrows;
 import ru.otus.exchange.blobstorage.Metadata;
-import ru.otus.exchange.blobstorage.Storage;
 import ru.otus.exchange.blobstorage.StorageData;
+import ru.otus.exchange.blobstorage.Utils;
 
-class Utils {
-    private Utils() {}
+class TestUtils {
+    private TestUtils() {}
 
     @SneakyThrows
     public static StorageData createStorageDataObject() {
@@ -20,7 +20,7 @@ class Utils {
         var byteBuffer = ByteBuffer.allocate(byteArray.length);
         byteBuffer.put(byteArray);
         byteBuffer.flip();
-        String sha256Digest = Storage.hexDigest(byteArray);
+        String sha256Digest = Utils.hexDigest(byteArray);
 
         return new StorageData(new Metadata(size, sha256Digest), byteBuffer);
     }
@@ -35,7 +35,7 @@ class Utils {
         var byteBuffer = ByteBuffer.allocate(byteArray.length);
         byteBuffer.put(byteArray);
         byteBuffer.flip();
-        String sha256Digest = Storage.hexDigest(byteArray);
+        String sha256Digest = Utils.hexDigest(byteArray);
 
         return new Metadata(size, sha256Digest);
     }

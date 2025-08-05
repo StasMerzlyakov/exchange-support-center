@@ -3,15 +3,17 @@ package ru.otus.exchange.blobstorage.minio;
 import com.fasterxml.jackson.databind.util.ByteBufferBackedInputStream;
 import io.minio.*;
 import io.minio.errors.ErrorResponseException;
+
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.*;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import ru.otus.exchange.blobstorage.*;
 
 @Slf4j
-public class MinoSyncClientStorage implements SyncStorage {
+public class MinoSyncClientStorage implements InternalSyncStorage {
 
     private final MinioClient minioClient;
 
@@ -53,11 +55,12 @@ public class MinoSyncClientStorage implements SyncStorage {
     public boolean writeObject(StorageKey storageKey, StorageData storageData) {
 
         var objectPath = toObjectPath(storageKey);
+        log.info("writeObject {}", objectPath);
 
         var byteBuffer = storageData.byteBuffer();
 
         var size = byteBuffer.remaining();
-        var sha256Digest = Storage.hexDigest(byteBuffer.array());
+        var sha256Digest = Utils.hexDigest(byteBuffer.array());
 
         var metadata = storageData.metadata();
         if (size != metadata.size()) {
@@ -138,6 +141,7 @@ public class MinoSyncClientStorage implements SyncStorage {
 
     @Override
     public boolean removeObject(StorageKey storageKey) {
+        log.info("removeObject {}", storageKey);
         String objectPath;
         objectPath = toObjectPath(storageKey);
         try {
@@ -149,7 +153,10 @@ public class MinoSyncClientStorage implements SyncStorage {
         } catch (ErrorResponseException re) {
             if (!NO_SUCH_KEY.equals(re.errorResponse().code())) {
                 log.error("minio removeObject error", re);
+            } else {
+                log.warn("", re);
             }
+
         } catch (Exception e) {
             log.error("removeObject error", e);
         }

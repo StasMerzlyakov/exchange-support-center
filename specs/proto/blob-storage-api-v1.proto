@@ -8,7 +8,7 @@ service BlobStorageService {
   rpc getObject(StorageKey) returns (StorageData);
   rpc putObject(PutObjectReq) returns (OpResult);
   rpc removeObject(StorageKey) returns (OpResult);
-  rpc isExists(StorageKey) returns (OpResult);
+  rpc getMetadata(StorageKey) returns (Metadata);
   rpc removeObjects(Exchange) returns (OpResult);
 }
 

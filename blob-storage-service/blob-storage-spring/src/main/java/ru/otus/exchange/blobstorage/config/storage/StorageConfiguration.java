@@ -14,12 +14,12 @@ import ru.otus.exchange.blobstorage.minio.MinoSyncClientStorage;
 public class StorageConfiguration {
 
     @Bean
-    public SyncStorage memorySyncStorage(BufferCache bufferCache) {
+    public InternalSyncStorage memorySyncStorage(BufferCache bufferCache) {
         return new MemorySyncStorage(bufferCache);
     }
 
     @Bean
-    public FutureStorage memoryFutureStorage(MinioProperties minioProperties, SyncStorage memorySyncStorage) {
+    public FutureStorage memoryFutureStorage(MinioProperties minioProperties, InternalSyncStorage memorySyncStorage) {
         return new FutureStorageImpl(minioProperties.getOpTimeout(), memorySyncStorage);
     }
 
@@ -37,13 +37,13 @@ public class StorageConfiguration {
     }
 
     @Bean
-    public SyncStorage minioSyncStorage(MinioClient minioClient, MinioProperties minioProperties) {
+    public InternalSyncStorage minioSyncStorage(MinioClient minioClient, MinioProperties minioProperties) {
         return new MinoSyncClientStorage(
                 minioClient, new MinioConfig(minioProperties.getBucket(), minioProperties.getOpTimeout()));
     }
 
     @Bean
-    public FutureStorage minioFutureStorage(MinioProperties minioProperties, SyncStorage minioSyncStorage) {
+    public FutureStorage minioFutureStorage(MinioProperties minioProperties, InternalSyncStorage minioSyncStorage) {
         return new FutureStorageImpl(minioProperties.getOpTimeout(), minioSyncStorage);
     }
 

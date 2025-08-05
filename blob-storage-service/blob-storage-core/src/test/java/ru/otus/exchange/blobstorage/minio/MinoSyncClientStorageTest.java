@@ -1,6 +1,6 @@
 package ru.otus.exchange.blobstorage.minio;
 
-import static ru.otus.exchange.blobstorage.Utils.createStorageDataObject;
+import static ru.otus.exchange.blobstorage.TestUtils.createObject;
 import static ru.otus.exchange.blobstorage.minio.MinoSyncClientStorage.OBJECT_SHA256_DIGEST;
 import static ru.otus.exchange.blobstorage.minio.MinoSyncClientStorage.OBJECT_SIZE_TAG;
 
@@ -54,11 +54,11 @@ class MinoSyncClientStorageTest {
     void test1() {
         String exchange = "exchange";
         String key = "key";
-        StorageData storageData = createStorageDataObject();
+        StorageData storageData = createObject();
 
         StorageKey storageKey = new StorageKey(exchange, key);
 
-        SyncStorage syncClientStorage = new MinoSyncClientStorage(minioClient, minioConfig);
+        InternalSyncStorage syncClientStorage = new MinoSyncClientStorage(minioClient, minioConfig);
 
         Assertions.assertDoesNotThrow(
                 () -> Assertions.assertTrue(syncClientStorage.writeObject(storageKey, storageData)));
