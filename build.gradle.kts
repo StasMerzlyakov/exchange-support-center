@@ -168,16 +168,6 @@ allprojects {
             force(rootProject.libs.spring.web)
             force(rootProject.libs.spring.core)
 
-            force(rootProject.libs.commons.logging)
-            force(rootProject.libs.svg.salamander)
-            force(rootProject.libs.xmlgraphics.commons)
-            force(rootProject.libs.ph.commons)
-            force(rootProject.libs.httpcore)
-            force(rootProject.libs.httpcore.nio)
-            force(rootProject.libs.checker.qual)
-            force(rootProject.libs.httpclient)
-            force(rootProject.libs.accessors.smart)
-            force(rootProject.libs.asm)
         }
     }
 }

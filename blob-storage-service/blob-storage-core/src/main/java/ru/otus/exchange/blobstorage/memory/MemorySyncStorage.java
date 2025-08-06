@@ -4,12 +4,11 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import lombok.extern.slf4j.Slf4j;
+import ru.otus.exchange.blobstorage.InternalSyncStorage;
 import ru.otus.exchange.blobstorage.Metadata;
 import ru.otus.exchange.blobstorage.StorageData;
 import ru.otus.exchange.blobstorage.StorageKey;
-import ru.otus.exchange.blobstorage.InternalSyncStorage;
 
 @Slf4j
 public class MemorySyncStorage implements InternalSyncStorage {
@@ -37,12 +36,24 @@ public class MemorySyncStorage implements InternalSyncStorage {
 
     @Override
     public Metadata readMetadata(StorageKey storageKey) {
-        return metadataMap.get(storageKey);
+        Metadata metadata = metadataMap.get(storageKey);
+        if (metadata == null) {
+            log.info("metadata by key {} not found", storageKey);
+        } else {
+            log.info("metadata by key {} exists", storageKey);
+        }
+        return metadata;
     }
 
     @Override
     public ByteBuffer readObject(StorageKey storageKey) {
-        return bufferCache.get(storageKey, metadataMap::remove);
+        var byteBuffer = bufferCache.get(storageKey, metadataMap::remove);
+        if (byteBuffer == null) {
+            log.info("byteBuffer by key {} not found", storageKey);
+        } else {
+            log.info("byteBuffer by key {} exists", storageKey);
+        }
+        return byteBuffer;
     }
 
     @Override

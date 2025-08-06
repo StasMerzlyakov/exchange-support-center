@@ -1,21 +1,22 @@
 package ru.otus.exchange.blobstorage;
 
-import lombok.SneakyThrows;
-
 import java.nio.ByteBuffer;
-import java.util.Random;
+import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
+import lombok.SneakyThrows;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class TestUtils {
-    private TestUtils() {
-    }
+    private TestUtils() {}
 
     @SneakyThrows
     public static StorageData createObject() {
         int size = 2000;
-        byte[] byteArray = new byte[size];
-        Random random = new Random();
-        random.nextBytes(byteArray);
 
+        byte[] byteArray = RandomStringUtils.secureStrong()
+                .nextAlphabetic(size)
+                .toUpperCase()
+                .getBytes(StandardCharsets.UTF_8);
         String sha256Digest = Utils.hexDigest(byteArray);
 
         return new StorageData(new Metadata(size, sha256Digest), ByteBuffer.wrap(byteArray));
@@ -24,7 +25,7 @@ public class TestUtils {
     public static Metadata createMetadata() {
         int size = 2000;
         byte[] byteArray = new byte[size];
-        Random random = new Random();
+        SecureRandom random = new SecureRandom();
         random.nextBytes(byteArray);
 
         String sha256Digest = Utils.hexDigest(byteArray);

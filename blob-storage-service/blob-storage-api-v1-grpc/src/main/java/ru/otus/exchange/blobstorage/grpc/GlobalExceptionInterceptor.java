@@ -15,8 +15,7 @@ public class GlobalExceptionInterceptor implements ServerInterceptor {
     public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(
             ServerCall<ReqT, RespT> serverCall, Metadata requestHeaders, ServerCallHandler<ReqT, RespT> next) {
         try {
-            return next.startCall(new SimpleForwardingServerCall<>(serverCall) {
-            }, requestHeaders);
+            return next.startCall(new SimpleForwardingServerCall<>(serverCall) {}, requestHeaders);
         } catch (Exception ex) {
             log.error("interaptCall", ex);
             return handleInterceptorException(ex, serverCall);
@@ -27,26 +26,30 @@ public class GlobalExceptionInterceptor implements ServerInterceptor {
             Throwable t, ServerCall<ReqT, RespT> serverCall) {
 
         switch (t) {
-            case MemoryException me: {
-                log.error("memory exception", me);
-                serverCall.close(Status.INTERNAL.withCause(t), new Metadata());
-            }
-            break;
-            case MinioException me: {
-                log.error("minio exception", me);
-                serverCall.close(Status.INTERNAL.withCause(t), new Metadata());
-            }
-            break;
-            case RedisException re: {
-                log.error("redis exception", re);
-                serverCall.close(Status.INTERNAL.withCause(t), new Metadata());
-            }
-            break;
-            case OverrideForbiddenException fe: {
-                log.error("override forbidden exception", fe);
-                serverCall.close(Status.ALREADY_EXISTS.withCause(t), new Metadata());
-            }
-            break;
+            case MemoryException me:
+                {
+                    log.error("memory exception", me);
+                    serverCall.close(Status.INTERNAL.withCause(t), new Metadata());
+                }
+                break;
+            case MinioException me:
+                {
+                    log.error("minio exception", me);
+                    serverCall.close(Status.INTERNAL.withCause(t), new Metadata());
+                }
+                break;
+            case RedisException re:
+                {
+                    log.error("redis exception", re);
+                    serverCall.close(Status.INTERNAL.withCause(t), new Metadata());
+                }
+                break;
+            case OverrideForbiddenException fe:
+                {
+                    log.error("override forbidden exception", fe);
+                    serverCall.close(Status.ALREADY_EXISTS.withCause(t), new Metadata());
+                }
+                break;
             default:
                 log.error("unexpected throwable type", t);
                 throw new IllegalStateException("Unexpected value: " + t);

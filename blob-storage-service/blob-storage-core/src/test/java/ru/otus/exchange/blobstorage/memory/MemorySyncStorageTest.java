@@ -5,9 +5,9 @@ import static ru.otus.exchange.blobstorage.TestUtils.createObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.otus.exchange.blobstorage.InternalSyncStorage;
 import ru.otus.exchange.blobstorage.StorageData;
 import ru.otus.exchange.blobstorage.StorageKey;
-import ru.otus.exchange.blobstorage.InternalSyncStorage;
 import ru.otus.exchange.blobstorage.memory.bytearray.ByteArrayCache;
 import ru.otus.exchange.blobstorage.memory.bytearray.ByteArrayCacheBufferCacheAdapter;
 

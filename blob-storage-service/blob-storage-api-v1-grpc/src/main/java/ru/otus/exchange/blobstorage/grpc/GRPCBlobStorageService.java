@@ -21,8 +21,10 @@ public class GRPCBlobStorageService extends ReactorBlobStorageServiceGrpc.BlobSt
     @Override
     public Mono<BlobStorageApiV1.StorageData> getObject(Mono<BlobStorageApiV1.StorageKey> request) {
         return request.map(mapper::map)
-                .flatMap(storage::read).map(mapper::map)
-                .switchIfEmpty(Mono.just(BlobStorageApiV1.StorageData.newBuilder().build()));
+                .flatMap(storage::read)
+                .map(mapper::map)
+                .switchIfEmpty(
+                        Mono.just(BlobStorageApiV1.StorageData.newBuilder().build()));
     }
 
     @Override

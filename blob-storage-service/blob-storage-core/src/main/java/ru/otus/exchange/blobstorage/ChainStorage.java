@@ -1,7 +1,6 @@
 package ru.otus.exchange.blobstorage;
 
 import java.util.Objects;
-
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
@@ -31,16 +30,12 @@ public class ChainStorage implements Storage {
 
     @Override
     public Mono<Boolean> delete(StorageKey storageKey) {
-        return current.delete(storageKey).flatMap(b ->
-                next.delete(storageKey)
-        );
+        return current.delete(storageKey).flatMap(b -> next.delete(storageKey));
     }
 
     @Override
     public Mono<Boolean> deleteAll(String exchange) {
-        return current.deleteAll(exchange).flatMap(b ->
-                next.deleteAll(exchange)
-        );
+        return current.deleteAll(exchange).flatMap(b -> next.deleteAll(exchange));
     }
 
     @Override
@@ -61,7 +56,8 @@ public class ChainStorage implements Storage {
                                 return current.getMetadata(storageKey);
                             }
                             return null;
-                        }).switchIfEmpty(Mono.empty()))
+                        })
+                        .switchIfEmpty(Mono.empty()))
                 .switchIfEmpty(Mono.empty())
                 .doOnSuccess(metadata -> log.info("getMetadata by key result {} : {} ", storageKey, metadata != null));
     }

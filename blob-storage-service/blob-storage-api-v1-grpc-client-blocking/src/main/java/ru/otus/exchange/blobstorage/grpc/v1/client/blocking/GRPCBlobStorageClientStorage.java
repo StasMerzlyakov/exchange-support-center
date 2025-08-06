@@ -27,32 +27,28 @@ public class GRPCBlobStorageClientStorage implements StorageSync {
         if (storageDataResp.getData().isEmpty()) {
             return null;
         }
-        var storageData = clientMapper.map(storageDataResp);
-        return storageData;
+        return clientMapper.map(storageDataResp);
     }
 
     @Override
     public Boolean write(StorageKey storageKey, StorageData storageData) {
         var putObjectReq = clientMapper.map(storageKey, storageData);
         var resultResp = blobStorageStub.putObject(putObjectReq);
-        var result = clientMapper.map(resultResp);
-        return result;
+        return clientMapper.map(resultResp);
     }
 
     @Override
     public Boolean delete(StorageKey storageKey) {
         var storageKeyReq = clientMapper.map(storageKey);
         var resultResp = blobStorageStub.removeObject(storageKeyReq);
-        var result = clientMapper.map(resultResp);
-        return result;
+        return clientMapper.map(resultResp);
     }
 
     @Override
     public Boolean deleteAll(String exchange) {
         var exchangeReq = clientMapper.map(exchange);
         var resultResp = blobStorageStub.removeObjects(exchangeReq);
-        var result = clientMapper.map(resultResp);
-        return result;
+        return clientMapper.map(resultResp);
     }
 
     @Override
@@ -62,7 +58,6 @@ public class GRPCBlobStorageClientStorage implements StorageSync {
         if (metadataResp.getSize() == 0) {
             return null;
         }
-        var metadata = clientMapper.map(metadataResp);
-        return metadata;
+        return clientMapper.map(metadataResp);
     }
 }

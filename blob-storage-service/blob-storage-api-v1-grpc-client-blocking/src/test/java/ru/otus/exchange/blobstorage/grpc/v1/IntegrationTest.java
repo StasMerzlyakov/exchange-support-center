@@ -1,10 +1,13 @@
 package ru.otus.exchange.blobstorage.grpc.v1;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import java.util.concurrent.atomic.AtomicReference;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import ru.otus.exchange.blobstorage.StorageData;
 import ru.otus.exchange.blobstorage.StorageKey;
@@ -12,14 +15,12 @@ import ru.otus.exchange.blobstorage.TestUtils;
 import ru.otus.exchange.blobstorage.grpc.v1.client.blocking.GRPCBlobStorageClientMapper;
 import ru.otus.exchange.blobstorage.grpc.v1.client.blocking.GRPCBlobStorageClientStorage;
 
-import java.util.concurrent.atomic.AtomicReference;
-
-//@Disabled("требует развернутого приложения и правильней вынести в отдельный модуль, но пока здесь")
+@Disabled("требует развернутого приложения и правильней вынести в отдельный модуль, но пока здесь")
+@Slf4j
 class IntegrationTest {
 
-    ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 9090)
-            .usePlaintext()
-            .build();
+    ManagedChannel channel =
+            ManagedChannelBuilder.forAddress("localhost", 9090).usePlaintext().build();
 
     @Test
     @DisplayName("read + write + delete")
@@ -48,7 +49,8 @@ class IntegrationTest {
         var actualObject = actualObjectRef.get();
 
         Assertions.assertEquals(object.metadata(), actualObject.metadata());
-        Assertions.assertArrayEquals(object.byteBuffer().array(), actualObject.byteBuffer().array());
+        Assertions.assertArrayEquals(
+                object.byteBuffer().array(), actualObject.byteBuffer().array());
 
         Assertions.assertEquals(object.metadata(), clientStorage.getMetadata(storageKey));
         clientStorage.delete(storageKey);
@@ -84,7 +86,8 @@ class IntegrationTest {
         var actualObject = actualObjectRef.get();
 
         Assertions.assertEquals(object.metadata(), actualObject.metadata());
-        Assertions.assertArrayEquals(object.byteBuffer().array(), actualObject.byteBuffer().array());
+        Assertions.assertArrayEquals(
+                object.byteBuffer().array(), actualObject.byteBuffer().array());
 
         Assertions.assertEquals(object.metadata(), clientStorage.getMetadata(storageKey));
         clientStorage.deleteAll(storageKey.exchange());

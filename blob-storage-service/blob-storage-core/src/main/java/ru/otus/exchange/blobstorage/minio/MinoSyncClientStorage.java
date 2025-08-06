@@ -3,11 +3,10 @@ package ru.otus.exchange.blobstorage.minio;
 import com.fasterxml.jackson.databind.util.ByteBufferBackedInputStream;
 import io.minio.*;
 import io.minio.errors.ErrorResponseException;
-
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import ru.otus.exchange.blobstorage.*;
@@ -64,10 +63,15 @@ public class MinoSyncClientStorage implements InternalSyncStorage {
 
         var metadata = storageData.metadata();
         if (size != metadata.size()) {
+            log.warn("expected metadata.size {}, actual {}", metadata.size(), size);
+
+            log.warn("{}", new String(byteBuffer.array(), StandardCharsets.UTF_8));
+
             return false;
         }
 
         if (!sha256Digest.equals(metadata.sha256Digest())) {
+            log.warn("expected metadata.sha256Digest {}, actual {}", metadata.sha256Digest(), sha256Digest);
             return false;
         }
 

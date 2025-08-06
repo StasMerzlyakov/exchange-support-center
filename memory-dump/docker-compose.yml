@@ -36,10 +36,13 @@ services:
     ports:
       - "9090:9090"
       - "7001:7000"
+      - "9010:9010"
     networks:
       - blob-load-net
     depends_on:
       - minio
+    volumes:
+      - ./blobstorage/dump:/dump
 
 networks:
   blob-load-net:

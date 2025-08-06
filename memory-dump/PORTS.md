@@ -4,3 +4,4 @@
 |  9900   |    minio    |     s3 api      |
 |  9090   | blobstorage |   grpc input    |
 |  7001   | blobstorage |    actuator     |
+|  9010   | blobstorage |   jmx port      |

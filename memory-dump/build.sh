@@ -7,7 +7,7 @@ mkdir -p build
 pwd=`pwd`
 
 # blobstorage
-pushd ../../blob-storage-service/blob-storage-spring/
+pushd ../blob-storage-service/blob-storage-spring/
 ../../gradlew clean bootJar
 cp build/libs/blob-storage-spring.jar ${pwd}/build/
 popd

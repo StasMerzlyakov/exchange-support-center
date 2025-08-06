@@ -1,12 +1,11 @@
 package ru.otus.exchange.blobstorage;
 
-import lombok.SneakyThrows;
-
 import java.security.MessageDigest;
 import java.util.HexFormat;
+import lombok.SneakyThrows;
 
 public class Utils {
-    private Utils(){}
+    private Utils() {}
 
     @SneakyThrows
     public static String hexDigest(byte[] byteArray) {

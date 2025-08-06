@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.mapstruct)
     annotationProcessor(libs.mapstruct.processor)
     implementation(libs.slf4j.api)
+    testRuntimeOnly(libs.slf4j.simple)
     implementation(libs.reactor.core)
     testImplementation(libs.mockito.core)
     testImplementation(projects.blobStorageService.testUtils)

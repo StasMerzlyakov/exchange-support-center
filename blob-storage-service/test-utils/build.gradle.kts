@@ -8,5 +8,5 @@ dependencies {
     compileOnly(libs.project.lombok)
     annotationProcessor(libs.project.lombok)
     implementation(projects.blobStorageService.blobStorageApiCommon)
-    testImplementation(projects.blobStorageService.testUtils)
+    implementation(libs.commons.lang3)
 }

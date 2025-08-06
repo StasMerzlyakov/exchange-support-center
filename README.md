@@ -52,11 +52,11 @@ SpringCloudGateway reactive - сервис. Принимает данные, о�
 - Кастомный фильтр (проверяет входной xml)
 
 ### Используемые навыки:
-1. 14 - Разбор JMeter и организация нагрузочного тестирования (gateway-service/gateway-jmeter.jmx). 
+1. 14 - Разбор JMeter и организация нагрузочного тестирования (gateway-service/gateway-jmeter.jmx, blob-storage-service/blob-storage-spring/blob-stroage-grpc.jmx). 
 2. 23 - Реактивное программирование: Профилирование приложения на Reactor  (ValidateInputXMLGatewayFilterFactory.apply - onSuccess, onError)
-3. 37 - Шаблоны проектирования отказоустойчивого сервиса (Resilience4j CircuitBreaker) (application.yaml)
 4. 30 - Сквозное логирование в микросервисах. (opentelemetry) 
 5. 31 - Проектирование и архитектура в разрезе микросервисов (API Gateway)
+6. 37 - Шаблоны проектирования отказоустойчивого сервиса (Resilience4j CircuitBreaker) (application.yaml)
 
 [Описание настроек для gateway](docs/adr/001-gateway-hints.md)
 ![zipkin-tracing](docs/img/01-gateway-zipkin-tracing.png)
@@ -97,6 +97,31 @@ java - GRPC + openapi (specification first) сервис, отвечающий �
 6. 21 - Java NIO (работаю с ByteBuffer; под капотом netty; docs/adr/005-objects-in-memory.md;)
 7. 22 - Реактивное программирование: Reactor (весь модуль)
 8. 34 - Protobuf, gRPC
+
+## memory-dump
+Содержит Dockerfile и compose для запуска сервиса blob-storage с возможностью подключения по jmx (VisualVM). Запускаю, 
+даю нагрузку blob-storage-service/blob-storage-spring/blob-stroage-grpc.jmx ну и можно подключаться и анализировать.
+
+![visualvm](docs/img/04-01-visualvm.png)
+![jmeter](docs/img/04-02-jmeter.png)
+![visualvm](docs/img/04-03-visualvm.png)
+
+### Выводы:
+1. Приложение не упало
+2. Работа FullGC ![serialgc](docs/img/04-04-serialgc.png) - в принципе видно, что паузы достаточно маленькие но их моного
+3. gceasy тоже ругается на FullGC и что очень много OutOfMemoryErrors - но текущая реализация на SoftReference!!
+
+Инструменты для анализа есть - дальше можно анализировать работу приложения с WeakReference, ByteBuffer.allocateDirect 
+и тюнингом GC,
+
+![gceasy](docs/img/04-05-gceasy.png)
+![gceasy](docs/img/04-06-gceasy.png)
+
+
+### Используемые навыки:
+1. 5 - Memory management. Разбор алгоритмов GC: SerialGC, ParallelGC, CMS GC
+2. 7 - Memory dump
+3. 19 - Профилирование java приложений. Работа с jvisualvm & asyncProfiler
 
 
 
