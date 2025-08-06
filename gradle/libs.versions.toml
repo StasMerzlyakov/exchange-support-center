@@ -65,6 +65,16 @@ error_prone_annotations = "2.30.0"
 gson = "2.11.0"
 reactor-grpc = "1.2.4"
 blockhound = "1.0.13.RELEASE"
+apache-jmeter = "5.6.3"
+commons-logging = "1.3.0"
+svg-salamander = "1.1.4"
+xmlgraphics-commons = "2.9"
+ph-commons = "10.2.5"
+httpcore = "4.4.6"
+httpclient = "4.5.14"
+checker-qual = "3.42.0"
+accessors-smart = "2.5.2"
+asm = "9.7.1"
 
 [plugins]
 freefair-lombok = { id = "io.freefair.lombok", version.ref = "lombok-plugin" }
@@ -75,6 +85,7 @@ spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 bjornvester-xjc = { id = "com.github.bjornvester.xjc", version.ref = "bjornvester-xjc" }
 openapi-generator = { id = "org.openapi.generator", version.ref = "openapi-generator" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugVer" }
+
 
 # BASE
 #jvm-compiler = "21"
@@ -125,7 +136,7 @@ opentelemetry-exporter-zipkin = { module = "io.opentelemetry:opentelemetry-expor
 reactor-test = { module = "io.projectreactor:reactor-test", version.ref = "reactor-core" }
 reactor-core = { module = "io.projectreactor:reactor-core", version.ref = "reactor-core" }
 
-blockhound = {module = "io.projectreactor.tools:blockhound", version.ref = "blockhound" }
+blockhound = { module = "io.projectreactor.tools:blockhound", version.ref = "blockhound" }
 
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "spring-boot" }
@@ -191,6 +202,7 @@ netty-handler-proxy = { module = "io.netty:netty-handler-proxy", version.ref = "
 
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlin-stdlib-common = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 
 awaitility = { module = "org.awaitility:awaitility", version.ref = "awaitility" }
 httpcore5 = { module = "org.apache.httpcomponents.core5:httpcore5", version.ref = "httpcore5" }
@@ -209,3 +221,17 @@ classmate = { module = "com.fasterxml:classmate", version.ref = "classmate" }
 httpclient5 = { module = "org.apache.httpcomponents.client5:httpclient5", version.ref = "httpclient5" }
 error_prone_annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "error_prone_annotations" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+
+apache-jmeter-core = { module = "org.apache.jmeter:ApacheJMeter_core", version.ref = "apache-jmeter" }
+apache-jmeter-http = { module = "org.apache.jmeter:ApacheJMeter_http", version.ref = "apache-jmeter" }
+apache-jmeter-functions = { module = "org.apache.jmeter:ApacheJMeter_functions", version.ref = "apache-jmeter" }
+commons-logging = { module = "commons-logging:commons-logging", version.ref = "commons-logging" }
+svg-salamander = { module = "com.formdev:svgSalamander", version.ref = "svg-salamander" }
+xmlgraphics-commons = { module = "org.apache.xmlgraphics:xmlgraphics-commons", version.ref = "xmlgraphics-commons"}
+ph-commons = { module = "com.helger.commons:ph-commons", version.ref = "ph-commons"}
+httpcore = { module = "org.apache.httpcomponents:httpcore", version.ref = "httpcore"}
+httpcore-nio = { module = "org.apache.httpcomponents:httpcore-nio", version.ref = "httpcore"}
+httpclient = { module = "org.apache.httpcomponents:httpclient", version.ref = "httpclient"}
+checker-qual = { module = "org.checkerframework:checker-qual", version.ref = "checker-qual"}
+accessors-smart = { module = "net.minidev:accessors-smart", version.ref = "accessors-smart"}
+asm = { module = "org.ow2.asm:asm", version.ref = "asm"}

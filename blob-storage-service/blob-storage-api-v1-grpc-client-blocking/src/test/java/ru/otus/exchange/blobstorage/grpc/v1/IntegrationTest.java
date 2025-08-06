@@ -8,6 +8,7 @@ import io.grpc.ManagedChannelBuilder;
 import org.mapstruct.factory.Mappers;
 import ru.otus.exchange.blobstorage.StorageData;
 import ru.otus.exchange.blobstorage.StorageKey;
+import ru.otus.exchange.blobstorage.TestUtils;
 import ru.otus.exchange.blobstorage.grpc.v1.client.blocking.GRPCBlobStorageClientMapper;
 import ru.otus.exchange.blobstorage.grpc.v1.client.blocking.GRPCBlobStorageClientStorage;
 

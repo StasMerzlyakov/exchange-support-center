@@ -19,4 +19,5 @@ dependencies {
     testImplementation(libs.mockito.junit.jupiter)
     testRuntimeOnly(libs.slf4j.simple)
     testImplementation(libs.minio.testcontainer)
+    testImplementation(projects.blobStorageService.testUtils)
 }

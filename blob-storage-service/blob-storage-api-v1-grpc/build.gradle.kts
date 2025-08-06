@@ -66,4 +66,5 @@ dependencies {
     implementation(libs.reactor.core)
     testImplementation(libs.mockito.core)
     annotationProcessor(libs.mapstruct.processor)
+    testImplementation(projects.blobStorageService.testUtils)
 }

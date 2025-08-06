@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import ru.otus.exchange.blobstorage.Metadata;
 import ru.otus.exchange.blobstorage.StorageData;
+import ru.otus.exchange.blobstorage.TestUtils;
 
 class BlobStorageMapperTest {
 
@@ -12,7 +13,7 @@ class BlobStorageMapperTest {
     void test1() {
         BlobStorageMapper mapper = Mappers.getMapper(BlobStorageMapper.class);
 
-        StorageData storageData = TestUtils.createStorageDataObject();
+        StorageData storageData = TestUtils.createObject();
 
         var grpcStorageData = mapper.map(storageData);
 
