@@ -264,9 +264,8 @@ asm = { module = "org.ow2.asm:asm", version.ref = "asm" }
 
 swagger-codegen = { module = "io.swagger:swagger-codegen", version.ref = "swagger-codegen" }
 swagger-annotations = { module = "io.swagger.core.v3:swagger-annotations", version.ref = "swagger-annotations" }
-swagger-jaxrs = { module = "io.swagger.core.v3:swagger-jaxrs2", version.ref = "swagger-jaxrs" }
+
 activation-api = { module = "jakarta.activation:jakarta.activation-api", version.ref = "activation-api" }
-rs-api = { module = "jakarta.ws.rs:jakarta.ws.rs-api", version.ref = "rs-api" }
 
 snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
 hibernate-validator = { module = "org.hibernate.validator:hibernate-validator", version.ref = "hibernate-validator" }
