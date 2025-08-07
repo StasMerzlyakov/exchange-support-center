@@ -16,7 +16,6 @@ include("common")
 include("models")
 include("models:xsd")
 findProject(":models:xsd")?.name = "xsd"
-include("models:mapping")
 include("models:jmh-tests")
 findProject(":models:jmh-tests")?.name = "jmh-tests"
 include("jfr-image")

@@ -10,25 +10,33 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "receiver")
+@RestController
+@RequestMapping("/api/v1/api/v1.0")
 public interface ReceiverSwaggerApi {
 
-
     @Operation(summary = "message receiver", description = "receive and store message")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successfully retrieved message", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Server error", content = @Content)
-    })
+    @ApiResponses(
+            value = {
+                @ApiResponse(responseCode = "201", description = "Successfully retrieved message", content = @Content),
+                @ApiResponse(responseCode = "500", description = "Server error", content = @Content)
+            })
+    @PostMapping(value = "/", consumes = "application/xml;charset=utf-8")
     void receive(
-            @Parameter(required = true,
-                    description = "request identifier",
-                    example = "12345678-1234-5678-1234-567812345678",
-                    name = REQUEST_ID,
-                    in = HEADER)
-            String requestId,
-            @RequestBody(required = true,
-                    description = "contend defined by soapenv-exchange.xsd",
-                    content = @Content(mediaType = "application/xml;charset=utf-8"))
-            byte[] message);
+            @Parameter(
+                            required = true,
+                            description = "request identifier",
+                            example = "12345678-1234-5678-1234-567812345678",
+                            name = REQUEST_ID,
+                            in = HEADER)
+                    String requestId,
+            @RequestBody(
+                            required = true,
+                            description = "contend defined by soapenv-exchange.xsd",
+                            content = @Content(mediaType = "application/xml;charset=utf-8"))
+                    byte[] message);
 }
