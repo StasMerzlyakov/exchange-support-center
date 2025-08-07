@@ -17,12 +17,16 @@ sourceSets {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:4.30.2" // TODO toml libs.protobuf.protoc
+        with (libs.protobuf.protoc.get()) {
+            artifact = "${module}:${version}"
+        }
     }
 
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.73.0" // TODO toml libs.protoc.gen.grpc.java
+            with (libs.protoc.gen.grpc.java.get()) {
+                artifact = "${module}:${version}"
+            }
         }
     }
 

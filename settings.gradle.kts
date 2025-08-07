@@ -39,3 +39,8 @@ include("blob-storage-service:blob-storage-api-v1-grpc-client-blocking")
 findProject(":blob-storage-service:blob-storage-api-v1-grpc-client-blocking")?.name = "blob-storage-api-v1-grpc-client-blocking"
 include("blob-storage-service:test-utils")
 findProject(":blob-storage-service:test-utils")?.name = "test-utils"
+include("receiver-service")
+include("receiver-service:receiver-api-v1-swagger")
+findProject(":receiver-service:receiver-api-v1-swagger")?.name = "receiver-api-v1-swagger"
+include("receiver-service:receiver-spring")
+findProject(":receiver-service:receiver-spring")?.name = "receiver-spring"

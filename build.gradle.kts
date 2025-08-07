@@ -86,6 +86,8 @@ allprojects {
             failOnVersionConflict()
 
             force(rootProject.libs.slf4j.api)
+            force(rootProject.libs.slf4j.simple)
+            force(rootProject.libs.slf4j.ext)
             force(rootProject.libs.guava)
             force(rootProject.libs.jakarta.bind.api)
             force(rootProject.libs.project.lombok)
@@ -121,6 +123,7 @@ allprojects {
             force(rootProject.libs.httpcore5)
 
             force(rootProject.libs.jackson.databind)
+            force(rootProject.libs.jackson.dataformat.yaml)
             force(rootProject.libs.jackson.annotations)
             force(rootProject.libs.jackson.core)
             force(rootProject.libs.jackson.bom)
@@ -129,6 +132,10 @@ allprojects {
             force(rootProject.libs.jackson.datatype.jdk8)
             force(rootProject.libs.jackson.jsr310)
             force(rootProject.libs.jackson.module.parameter.names)
+
+            force(rootProject.libs.jackson.jaxrs.json.provider)
+            force(rootProject.libs.jackson.jaxrs.base)
+            force(rootProject.libs.jackson.module.jaxb.annotations)
 
             force(rootProject.libs.kotlin.stdlib.jdk8)
             force(rootProject.libs.kotlin.stdlib.common)
@@ -168,6 +175,17 @@ allprojects {
             force(rootProject.libs.spring.web)
             force(rootProject.libs.spring.core)
 
+            force(rootProject.libs.findbugs.jsr305)
+            force(rootProject.libs.snakeyaml)
+            force(rootProject.libs.activation.api)
+
+            force(rootProject.libs.hibernate.validator)
+            force(rootProject.libs.jackson.module.jakarta.xmlbind.annotations)
+
+            force(rootProject.libs.jmustache)
+            force(rootProject.libs.validation.api)
+            force(rootProject.libs.spring.boot.autoconfigure)
+            force(rootProject.libs.spring.webmvc)
         }
     }
 }

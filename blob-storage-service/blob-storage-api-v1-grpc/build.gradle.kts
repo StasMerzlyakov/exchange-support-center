@@ -18,16 +18,22 @@ sourceSets {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:4.30.2" // TODO toml libs.protobuf.protoc
+        with (libs.protobuf.protoc.get()) {
+            artifact = "${module}:${version}"
+        }
     }
 
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.73.0" // TODO toml libs.protoc.gen.grpc.java
+            with (libs.protoc.gen.grpc.java.get()) {
+                artifact = "${module}:${version}"
+            }
         }
 
         id("reactor") {
-            artifact = "com.salesforce.servicelibs:reactor-grpc:1.2.4" // TODO toml libs.reactor.grpc
+            with(libs.reactor.grpc.lib.get()) {
+                artifact = "${module}:${version}"
+            }
         }
     }
 
@@ -54,7 +60,7 @@ dependencies {
     implementation(projects.blobStorageService.blobStorageApiCommon)
     implementation(libs.annotation.api)
     implementation(libs.protobuf.protoc)
-    implementation(libs.reactor.grpc)
+    implementation(libs.reactor.grpc.lib)
     implementation(libs.reactor.grpc.stubs)
     implementation(libs.grpc.netty)
     implementation(libs.grpc.protobuf)
