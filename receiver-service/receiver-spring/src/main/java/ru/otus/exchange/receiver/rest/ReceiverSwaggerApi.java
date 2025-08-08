@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,10 +24,12 @@ public interface ReceiverSwaggerApi {
     @ApiResponses(
             value = {
                 @ApiResponse(responseCode = "201", description = "Successfully retrieved message", content = @Content),
+                @ApiResponse(responseCode = "400", description = "Message format error", content = @Content),
+                @ApiResponse(responseCode = "403", description = "Department is not acceptable", content = @Content),
                 @ApiResponse(responseCode = "500", description = "Server error", content = @Content)
             })
     @PostMapping(value = "/", consumes = "application/xml;charset=utf-8")
-    void receive(
+    ResponseEntity<Void> receive(
             @Parameter(
                             required = true,
                             description = "request identifier",

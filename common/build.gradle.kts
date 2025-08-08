@@ -8,7 +8,8 @@ dependencies {
     implementation(libs.murmur3)
     implementation(libs.jackson.databind)
     implementation(libs.slf4j.api)
-    implementation(libs.json.unit.assertj)
+    testImplementation(libs.json.unit.assertj)
+    implementation(libs.validation.api)
     testImplementation(libs.mockito.core)
 }
 

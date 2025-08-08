@@ -37,6 +37,9 @@ mockito-core = "5.18.0"
 reactor-core = "3.7.6"
 spring = "6.2.8"
 
+spring-kafka = "3.3.7"
+kafka-clients = "3.9.1"
+
 protobufPlugVer = "0.9.5"
 mapstruct = "1.6.0"
 proto-google = "2.54.1"
@@ -87,7 +90,9 @@ hibernate-validator = "8.0.2.Final"
 jackson-module-jakarta-xmlbind-annotations = "2.19.2"
 jmustache = "1.16"
 validation-api = "3.0.2"
-openapui="2.8.9"
+openapui = "2.8.9"
+flyway = "11.7.2"
+postgresql = "42.7.7"
 
 [plugins]
 freefair-lombok = { id = "io.freefair.lombok", version.ref = "lombok-plugin" }
@@ -117,7 +122,12 @@ jvnet-jaxb2-basics = { module = "org.jvnet.jaxb2_commons:jaxb2-basics-annotate",
 jakarta-bind-api = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version.ref = "jakarta-bind-api" }
 spring-boot-starter-webflux = { group = "org.springframework.boot", name = "spring-boot-starter-webflux", version.ref = "spring-boot" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring-boot" }
+spring-boot-starter-jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc", version.ref = "spring-boot" }
+
 spring-webmvc = { module = "org.springframework:spring-webmvc", version.ref = "spring" }
+
+spring-kafka = { module = "org.springframework.kafka:spring-kafka", version.ref = "spring-kafka" }
+kafka-clients = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka-clients" }
 spring-boot-autoconfigure = { module = "org.springframework.boot:spring-boot-autoconfigure", version.ref = "spring-boot" }
 
 spring-boot-starter-jersey = { group = "org.springframework.boot", name = "spring-boot-starter-jersey", version.ref = "spring-boot" }
@@ -205,6 +215,8 @@ jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", ver
 jackson-datatype-guava = { module = "com.fasterxml.jackson.datatype:jackson-datatype-guava", version.ref = "jackson" }
 jackson-datatype-jdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8", version.ref = "jackson" }
 jackson-dataformat-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }
+jackson-dataformat-toml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-toml", version.ref = "jackson" }
+
 jackson-module-parameter-names = { module = "com.fasterxml.jackson.module:jackson-module-parameter-names", version.ref = "jackson" }
 
 jackson-jaxrs-json-provider = { module = "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider", version.ref = "jackson" }
@@ -276,3 +288,6 @@ jackson-module-jakarta-xmlbind-annotations = { module = "com.fasterxml.jackson.m
 
 jmustache = { module = "com.samskivert:jmustache", version.ref = "jmustache" }
 validation-api = { module = "jakarta.validation:jakarta.validation-api", version.ref = "validation-api" }
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+flyway-database-postgresql  = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }

@@ -43,3 +43,7 @@ include("receiver-service:receiver-api-v1-swagger")
 findProject(":receiver-service:receiver-api-v1-swagger")?.name = "receiver-api-v1-swagger"
 include("receiver-service:receiver-spring")
 findProject(":receiver-service:receiver-spring")?.name = "receiver-spring"
+include("receiver-service:receiver-api-common")
+findProject(":receiver-service:receiver-api-common")?.name = "receiver-api-common"
+include("receiver-service:receiver-core")
+findProject(":receiver-service:receiver-core")?.name = "receiver-core"

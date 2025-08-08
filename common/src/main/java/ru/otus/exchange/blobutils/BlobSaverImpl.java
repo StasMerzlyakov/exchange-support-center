@@ -20,8 +20,7 @@ public class BlobSaverImpl implements BlobSaver {
         }
 
         byte[] arch = Archiver.compress(blob);
-        ByteBuffer wrapper = ByteBuffer.wrap(arch);
-        blobSaverCallback.saveObject(exchange, fileName, wrapper);
+        blobSaverCallback.saveObject(exchange, fileName, arch);
         return fileName;
     }
 }

@@ -124,6 +124,7 @@ allprojects {
 
             force(rootProject.libs.jackson.databind)
             force(rootProject.libs.jackson.dataformat.yaml)
+            force(rootProject.libs.jackson.dataformat.toml)
             force(rootProject.libs.jackson.annotations)
             force(rootProject.libs.jackson.core)
             force(rootProject.libs.jackson.bom)
@@ -186,6 +187,9 @@ allprojects {
             force(rootProject.libs.validation.api)
             force(rootProject.libs.spring.boot.autoconfigure)
             force(rootProject.libs.spring.webmvc)
+            force(rootProject.libs.kafka.clients)
+
+            force(rootProject.libs.checker.qual)
         }
     }
 }
